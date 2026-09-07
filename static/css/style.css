@@ -99,7 +99,8 @@ h1, .brand {
 
 .hero-identity h1 {
     font-size: clamp(3rem, 7vw, 5rem);
-    line-height: 0.95;
+    line-height: 1.1;
+    text-wrap: balance;
 }
 
 .bio {
