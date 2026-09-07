@@ -10,14 +10,15 @@
     --accent: #d95d39;
     --accent-dark: #a8442a;
     --line: #e3d9c9;
-    --text-muted: #6b6459;
+    --text-muted: rgba(250, 246, 240, 0.6);
     --radius: 4px;
+    --blue: #00a2ff;
 }
 
 body {
     font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: var(--ink);
-    background-color: var(--paper);
+    color: var(--paper);
+    background-color: var(--ink);
     line-height: 1.6;
 }
 
@@ -32,7 +33,7 @@ h1, .brand {
 }
 
 .site-header {
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--ink);
 }
 
 .site-header .container {
@@ -45,7 +46,7 @@ h1, .brand {
 .brand {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--ink);
+    color: var(--paper);
     text-decoration: none;
 }
 
@@ -55,9 +56,14 @@ h1, .brand {
 }
 
 .site-header nav a {
-    color: var(--ink);
+    color: var(--paper);
     text-decoration: none;
     font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.site-header nav a:hover {
+    color: var(--blue);
 }
 
 .hero {
@@ -85,14 +91,15 @@ h1, .brand {
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent-dark);
+    color: var(--blue);
     font-weight: 700;
     margin-bottom: 0.75rem;
 }
 
 .hero-identity h1 {
     font-size: clamp(3rem, 7vw, 5rem);
-    line-height: 0.95;
+    line-height: 1.1;
+    text-wrap: balance;
 }
 
 .bio {
@@ -119,32 +126,79 @@ h1, .brand {
     font-weight: 600;
 }
 
+.social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem; 
+    cursor: pointer;
+}
+
 .social-links {
     display: flex;
-    gap: 0.5rem;
+    gap: 2rem; 
     flex-wrap: wrap;
+    padding: 1rem 0;
 }
 
 .social-link {
-    display: inline-block;
-    font-size: 0.85rem;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;         
+    height: 60px;
     text-decoration: none;
-    color: var(--paper);
-    background-color: var(--ink);
-    border-radius: var(--radius);
-    padding: 0.5rem 1.1rem;
-    transition: background-color 0.2s ease;
+    color: var(--blue); 
+    background-color: rgba(0, 162, 255, 0.02); 
+    border: 1.5px solid rgba(0, 162, 255, 0.3); 
+    border-radius: 8px;       
+    box-shadow: 
+        inset 0 0 8px rgba(0, 162, 255, 0.1),
+        0 0 10px rgba(0, 162, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.social-link svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;      
+    transition: transform 0.3s ease;
 }
 
 .social-link:hover {
-    background-color: var(--accent);
+    background-color: rgba(0, 162, 255, 0.15);
+    color: #ffffff;     
+    border-color: var(--blue);
+    box-shadow: 
+        inset 0 0 12px rgba(0, 162, 255, 0.4),
+        0 0 20px rgba(0, 162, 255, 0.6),
+        0 0 8px rgba(0, 162, 255, 0.2);
+    transform: translateY(-5px); 
+}
+
+.social-link:hover svg {
+    transform: scale(1.1) rotate(3deg);
+}
+
+.social-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;           
+    color: rgba(250, 246, 240, 0.4);  
+    transition: all 0.3s ease;
+}
+
+.social-item:hover .social-label {
+    color: var(--blue);
+    text-shadow: 0 0 8px rgba(0, 162, 255, 0.8); 
 }
 
 .hero-photo {
     grid-area: photo;
     align-self: center;
     position: relative;
+    cursor: pointer; 
 }
 
 .photo-block {
@@ -153,9 +207,10 @@ h1, .brand {
     left: 1.25rem;
     width: 100%;
     height: 100%;
-    background-color: var(--accent);
     border-radius: var(--radius);
+    background-color: var(--blue);
     z-index: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
 
 .avatar {
@@ -167,13 +222,22 @@ h1, .brand {
     object-fit: cover;
     border-radius: var(--radius);
     border: 3px solid var(--ink);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+
+.hero-photo:hover .avatar {
+    transform: translate(-6px, -6px);
+}
+
+.hero-photo:hover .photo-block {
+    transform: translate(6px, 6px);
 }
 
 .site-footer {
     padding: 1.5rem;
-    color: var(--text-muted);
+    color: var(--paper);
     font-size: 0.85rem;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--ink);
 }
 
 @media (max-width: 600px) {
@@ -192,4 +256,9 @@ h1, .brand {
     .social-links {
         justify-content: flex-start;
     }
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; 
 }
