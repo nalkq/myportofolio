@@ -71,6 +71,119 @@
                 </div>
             </div>
         </section>
+        <section class="skills-section container">
+            <h2 class="section-title">Skills</h2>
+            
+            <div class="editor-container">
+                <input type="radio" id="tab-cp" name="editor-tabs" checked hidden>
+                <input type="radio" id="tab-cpp" name="editor-tabs" hidden>
+                <input type="radio" id="tab-ps" name="editor-tabs" hidden>
+                <input type="radio" id="tab-java" name="editor-tabs" hidden>
+                
+                <div class="editor-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    
+                    <div class="editor-tabs-menu">
+                        <label for="tab-cp" class="tab-btn label-cp">
+                            <i class="bi bi-trophy-fill"></i> Competitive Programming
+                        </label>
+                        <label for="tab-cpp" class="tab-btn label-cpp">
+                            <i class="bi bi-filetype-cpp"></i> C++
+                        </label>
+                        <label for="tab-ps" class="tab-btn label-ps">
+                            <i class="bi bi-lightning-charge-fill"></i> Probolem Solving
+                        </label>
+                        <label for="tab-java" class="tab-btn label-java">
+                            <i class="bi bi-filetype-java"></i> Java
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="editor-body code">
+                    
+                    <div class="code-content content-cp">
+                        <div class="code-line"><span class="c-keyword">#include</span> <span class="c-string">&lt;bits/stdc++.h&gt;</span></div>
+                        <div class="code-line"><span class="c-keyword">using namespace</span> std;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line"><span class="c-type">int</span> <span class="c-func">main</span>() {</div>
+                        <div class="code-line indent-1">ios_base::sync_with_stdio(<span class="c-type">0</span>);</div>
+                        <div class="code-line indent-1">cin.tie(<span class="c-type">0</span>);</div>
+                        <div class="code-line indent-1">cout.tie(<span class="c-type">0</span>);</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent-1">string my_passion = <span class="c-string">"Competitive Programming"</span>;</div>
+                        <div class="code-line indent-1"><span class="c-keyword">bool</span> is_excited = <span class="c-type">true</span>;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent-1"><span class="c-keyword">if</span> (is_excited) {</div>
+                        <div class="code-line indent-2">cout &lt;&lt; <span class="c-string">"Hey there! I really love the world of Competitive Programming.\n"</span>;</div>
+                        <div class="code-line indent-2">cout &lt;&lt; <span class="c-string">"For me, the rush of getting those green 'Accepted' (AC) verdicts on Codeforces "</span>;</div>
+                        <div class="code-line indent-2">cout &lt;&lt; <span class="c-string">"or ICPC competitions is incredibly addictive and satisfying!\n"</span>;</div>
+                        <div class="code-line indent-1">}</div>
+                        <div class="code-line indent-1"><span class="c-keyword">return</span> <span class="c-type">0</span>;</div>
+                        <div class="code-line">}</div>
+                    </div>
+                    
+                    <div class="code-content content-cpp">
+                        <div class="code-line"><span class="c-keyword">#include</span> <span class="c-string">&lt;bits/stdc++.h&gt;</span></div>
+                        <div class="code-line"><span class="c-keyword">using namespace</span> std;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line"><span class="c-keyword">struct</span> <span class="c-type">MySkillset</span> {</div>
+                        <div class="code-line indent-1">string main_language = <span class="c-string">"C++"</span>;</div>
+                        <div class="code-line indent-1">vector&lt;string&gt; features = {<span class="c-string">"STL"</span>, <span class="c-string">"Pointers"</span>, <span class="c-string">"Fast Runtime"</span>};</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent-1"><span class="c-type">void</span> <span class="c-func">showCapability</span>() {</div>
+                        <div class="code-line indent-2">cout &lt;&lt; <span class="c-string">"C++ is my absolute weapon of choice!\n"</span>;</div>
+                        <div class="code-line indent-2">cout &lt;&lt; <span class="c-string">"I understand memory optimization, pointer manipulation,\n"</span>;</div>
+                        <div class="code-line indent-2">cout &lt;&lt; <span class="c-string">"and am highly proficient in utilizing the Standard Template Library (STL) "</span>;</div>
+                        <div class="code-line indent-2">cout &lt;&lt; <span class="c-string">"such as vectors, maps, and sets to write blazing-fast code."</span>;</div>
+                        <div class="code-line indent-1">}</div>
+                        <div class="code-line">};</div>
+                    </div>
+                    
+                    <div class="code-content content-ps">
+                        <div class="code-line"><span class="c-keyword">#include</span> <span class="c-string">&lt;bits/stdc++.h&gt;</span></div>
+                        <div class="code-line"><span class="c-keyword">using namespace</span> std;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line"><span class="c-keyword">bool</span> <span class="c-func">loveProblemSolving</span>() {</div>
+                        <div class="code-line indent-1">string challenge = <span class="c-string">"Complex Algorithms / Tricky Data Structures"</span>;</div>
+                        <div class="code-line indent-1"><span class="c-type">int</span> curiosity_level = <span class="c-type">100</span>;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent-1"><span class="c-keyword">while</span> (curiosity_level &gt; <span class="c-type">0</span>) {</div>
+                        <div class="code-line indent-2"><span class="c-comment">// Deep analysis and trial-error process...</span></div>
+                        <div class="code-line indent-2"><span class="c-keyword">bool</span> is_solved = <span class="c-type">true</span>;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent-2"><span class="c-keyword">if</span> (is_solved) {</div>
+                        <div class="code-line indent-3">cout &lt;&lt; <span class="c-string">"I get an unmatched sense of satisfaction whenever I solve a tough problem.\n"</span>;</div>
+                        <div class="code-line indent-3">cout &lt;&lt; <span class="c-string">"Finding an efficient solution is my favorite parts of the day!\n"</span>;</div>
+                        <div class="code-line indent-3">cout &lt;&lt; <span class="c-string">"My brain automatically runs at O(N log N) complexity when analyzing problems\n"</span>;</div>
+                        <div class="code-line indent-3"><span class="c-keyword">return</span> <span class="c-type">true</span>;</div>
+                        <div class="code-line indent-2">}</div>
+                        <div class="code-line indent-1">}</div>
+                        <div class="code-line indent-1"><span class="c-keyword">return</span> <span class="c-type">false</span>;</div>
+                        <div class="code-line">}</div>
+                    </div>
+                    
+                    <div class="code-content content-java">
+                        <div class="code-line"><span class="c-keyword">import</span> java.util.*;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line"><span class="c-keyword">public class</span> <span class="c-type">Main</span> {</div>
+                        <div class="code-line indent-1"><span class="c-keyword">public static void</span> <span class="c-func">main</span>(String[] args) {</div>
+                        <div class="code-line indent-2">String skill = <span class="c-string">"Java Programming"</span>;</div>
+                        <div class="code-line indent-2"><span class="c-keyword">boolean</span> understandOOP = <span class="c-keyword">true</span>;</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent-2">System.out.println(<span class="c-string">"Besides C++, I can also write Java code!"</span>);</div>
+                        <div class="code-line indent-2">System.out.println(<span class="c-string">"I understand core Object-Oriented Programming (OOP) concepts "</span>);</div>
+                        <div class="code-line indent-2">System.out.println(<span class="c-string">"like Classes, Inheritance, Polymorphism, and "</span>);</div>
+                        <div class="code-line indent-2">System.out.println(<span class="c-string">"how to write clean, structured, and SOLID code."</span>);</div>
+                        <div class="code-line indent-1">}</div>
+                        <div class="code-line">}</div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="site-footer">
