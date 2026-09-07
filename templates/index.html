@@ -11,16 +11,18 @@
 </head>
 <body>
     <header class="site-header">
-        <div class="container">
-            <a href="#profile" class="brand">Kaysan</a>
-            <nav>
-                <a href="#profile">Profile</a>
+        <div class="container header-container">
+            <a href="#" class="brand"></a>
+            
+            <nav class="nav-menu">
+                <a href="#about-me" class="nav-link">About Me</a>
+                <a href="#skills" class="nav-link">Skills</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <section class="hero" id="profile">
+        <section class="hero" id="about-me">
             <div class="container hero-grid">
                 <div class="hero-identity">
                     <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
@@ -74,7 +76,7 @@
         <section class="skills-section container">
             <h2 class="section-title">Skills</h2>
             
-            <div class="editor-container">
+            <div class="editor-container" id="skills">
                 <input type="radio" id="tab-cp" name="editor-tabs" checked hidden>
                 <input type="radio" id="tab-cpp" name="editor-tabs" hidden>
                 <input type="radio" id="tab-ps" name="editor-tabs" hidden>
