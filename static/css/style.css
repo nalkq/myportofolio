@@ -10,9 +10,8 @@
     --accent: #d95d39;
     --accent-dark: #a8442a;
     --line: #e3d9c9;
-    --text-muted: #6b6459;
+    --text-muted: rgba(250, 246, 240, 0.6);
     --radius: 4px;
-
     --blue: #00a2ff;
 }
 
@@ -127,26 +126,72 @@ h1, .brand {
     font-weight: 600;
 }
 
+.social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem; 
+    cursor: pointer;
+}
+
 .social-links {
     display: flex;
-    gap: 0.5rem;
+    gap: 2rem; 
     flex-wrap: wrap;
+    padding: 1rem 0;
 }
 
 .social-link {
-    display: inline-block;
-    font-size: 0.85rem;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;         
+    height: 60px;
     text-decoration: none;
-    color: var(--paper);
-    background-color: var(--ink);
-    border-radius: var(--radius);
-    padding: 0.5rem 1.1rem;
-    transition: background-color 0.2s ease;
+    color: var(--blue); 
+    background-color: rgba(0, 162, 255, 0.02); 
+    border: 1.5px solid rgba(0, 162, 255, 0.3); 
+    border-radius: 8px;       
+    box-shadow: 
+        inset 0 0 8px rgba(0, 162, 255, 0.1),
+        0 0 10px rgba(0, 162, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.social-link svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;      
+    transition: transform 0.3s ease;
 }
 
 .social-link:hover {
-    background-color: var(--blue);
+    background-color: rgba(0, 162, 255, 0.15);
+    color: #ffffff;     
+    border-color: var(--blue);
+    box-shadow: 
+        inset 0 0 12px rgba(0, 162, 255, 0.4),
+        0 0 20px rgba(0, 162, 255, 0.6),
+        0 0 8px rgba(0, 162, 255, 0.2);
+    transform: translateY(-5px); 
+}
+
+.social-link:hover svg {
+    transform: scale(1.1) rotate(3deg);
+}
+
+.social-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;           
+    color: rgba(250, 246, 240, 0.4);  
+    transition: all 0.3s ease;
+}
+
+.social-item:hover .social-label {
+    color: var(--blue);
+    text-shadow: 0 0 8px rgba(0, 162, 255, 0.8); 
 }
 
 .hero-photo {
