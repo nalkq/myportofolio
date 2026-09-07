@@ -152,6 +152,7 @@ h1, .brand {
     grid-area: photo;
     align-self: center;
     position: relative;
+    cursor: pointer; 
 }
 
 .photo-block {
@@ -163,6 +164,7 @@ h1, .brand {
     border-radius: var(--radius);
     background-color: var(--blue);
     z-index: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
 
 .avatar {
@@ -174,6 +176,15 @@ h1, .brand {
     object-fit: cover;
     border-radius: var(--radius);
     border: 3px solid var(--ink);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+
+.hero-photo:hover .avatar {
+    transform: translate(-6px, -6px);
+}
+
+.hero-photo:hover .photo-block {
+    transform: translate(6px, 6px);
 }
 
 .site-footer {
