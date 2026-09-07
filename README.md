@@ -40,7 +40,7 @@ Setelah server menyala, buka browser dan akses alamat http://127.0.0.1:8000/
 
 
 ## AI Disclosure
-Tentu projek yang saya kerjakan ini memiliki andil AI di dalamnya, AI membantu saya mengeksplor apa saja yang bisa dilakukan css dan memberikan saya berbagai macam pilihan style yang dapat saya implementasikan ke projek yang saya kerjakan ini. AI juga membantu saya dalam memahami tata cara conventional commits yang baik dan benar agar sesuai dengan standar profesional.
+Tentu projek yang saya kerjakan ini memiliki andil AI di dalamnya, AI membantu saya mengeksplor apa saja yang bisa dilakukan css dan memberikan saya berbagai macam pilihan style yang dapat saya implementasikan ke projek yang saya kerjakan ini. AI juga membantu saya dalam memahami tata cara conventional commits yang baik dan benar agar sesuai dengan standar profesional. AI tentu tidak selalu benar, beberapa kali kode yang disarankan AI justru mengalami error seperti lupa menutup `<div>` yang dibuka sehingga saya harus debug secara manual untuk memperbaiki error tersebut. Atau bahkan memaksakan penggunaan syntax `!important` yang membuat kode css yang saya miliki menjadi tidak best practice.
 
 https://notebook.google.com/notebook/2ff52ba9-dd58-4a22-b8bf-5262db7b016e
 
