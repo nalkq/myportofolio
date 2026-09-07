@@ -32,6 +32,7 @@ h1, .brand {
     padding: 0 1.5rem;
 }
 
+/* Header */
 .site-header {
     position: fixed;
     top: 0;
@@ -94,15 +95,7 @@ header.site-header::after {
     text-shadow: 0 0 8px rgba(0, 162, 255, 0.6); 
 }
 
-.site-header nav {
-    display: flex;
-    gap: 2rem;
-}
-
-.site-header nav a:hover {
-    color: var(--blue);
-}
-
+/* About Me Section */
 .hero {
     padding: 4.5rem 0 5rem;
     padding-top: 150px;
@@ -164,6 +157,7 @@ header.site-header::after {
     font-weight: 600;
 }
 
+/* Social Links */
 .social-item {
     display: flex;
     flex-direction: column;
@@ -243,6 +237,7 @@ header.site-header::after {
     color: #00a2ff; 
 }
 
+/* Profile Picture*/
 .hero-photo {
     grid-area: photo;
     align-self: center;
@@ -282,6 +277,7 @@ header.site-header::after {
     transform: translate(6px, 6px);
 }
 
+/* Skills Section */
 .skills-section {
     padding: 5rem 1.5rem;
 }
@@ -307,6 +303,7 @@ header.site-header::after {
     border-radius: 2px;
 }
 
+/* Window Frame */
 .editor-container {
     background-color: #0d0c0b; 
     border: 1.5px solid rgba(250, 246, 240, 0.1);
@@ -342,6 +339,7 @@ header.site-header::after {
 .dot.yellow { background-color: #ffbd2e; }
 .dot.green { background-color: #27c93f; }
 
+/* Tabs Navigation */
 .editor-tabs-menu {
     display: flex;
     flex-shrink: 0;
@@ -375,6 +373,7 @@ header.site-header::after {
 .label-logic i { color: #00e676; }
 .label-java i { color: var(--accent); }
 
+/* Tab Switching Logic */
 .code-content {
     display: none;
     animation: fadeIn 0.3s ease;
@@ -401,6 +400,7 @@ header.site-header::after {
 #tab-ps:checked ~ .editor-header .label-ps { border-top-color: #00e676; }       
 #tab-java:checked ~ .editor-header .label-java { border-top-color: var(--accent); } 
 
+/* Code Body */
 .editor-body.code {
     font-family: 'Fira Code', Consolas, Monaco, monospace;
     font-size: 0.9rem;
@@ -435,6 +435,7 @@ header.site-header::after {
 .c-type    { color: #ffbd2e; }                     
 .c-func    { color: #00a2ff; }                     
 
+/* Fade Animation */
 @keyframes fadeIn {
     from { 
         opacity: 0; transform: translateY(3px); 
@@ -444,6 +445,7 @@ header.site-header::after {
     }
 }
 
+/* Footer */
 .site-footer {
     padding: 1.5rem;
     color: var(--paper);

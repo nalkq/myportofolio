@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaysan Navid Musyaffa - Portfolio</title>
+
+    <!-- External Fonts & Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+    <!-- Header -->
     <header class="site-header">
         <div class="container header-container">
             <a href="#" class="brand"></a>
@@ -23,16 +28,22 @@
     </header>
 
     <main>
+        <!-- About Me Section -->
         <section class="hero" id="about-me">
             <div class="container hero-grid">
+                <!-- Identity Header -->
                 <div class="hero-identity">
                     <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
                     <h1>Kaysan Navid Musyaffa</h1>
                 </div>
+
+                <!-- Profile Picture -->
                 <div class="hero-photo">
                     <div class="photo-block"></div>
                     <img class="avatar" src="/static/img/Kaysan.jpg" alt="Photo of Kaysan Navid Musyaffa">
                 </div>
+
+                <!-- Bio Details -->
                 <div class="hero-details">
                     <p class="bio">A competitive programming enjoyer who loves problem solving. Currently studying Computer Science at Universitas Indonesia, focusing on algorithm optimization and writing efficient code. Spending my days turning complex algorithmic challenges into clean, optimized solutions.</p>
                     <dl class="meta-list">
@@ -45,6 +56,8 @@
                             <dd>S1 Ilmu Komputer</dd>
                         </div>
                     </dl>
+
+                    <!-- Social Media Links -->
                     <div class="social-links">
                         <div class="social-item">
                             <a href="https://github.com/nalkq" target="_blank" class="social-box">
@@ -72,14 +85,18 @@
             </div>
         </section>
         <section class="skills-section container">
+            <!-- Skills Section -->
             <h2 class="section-title">Skills</h2>
             
             <div class="editor-container" id="skills">
+
+                <!-- Radio controls for tab switching -->
                 <input type="radio" id="tab-cp" name="editor-tabs" checked hidden>
                 <input type="radio" id="tab-cpp" name="editor-tabs" hidden>
                 <input type="radio" id="tab-ps" name="editor-tabs" hidden>
                 <input type="radio" id="tab-java" name="editor-tabs" hidden>
                 
+                <!-- Editor Header (Window Controls & Navigation Tabs) -->
                 <div class="editor-header">
                     <div class="window-controls">
                         <span class="dot red"></span>
@@ -104,7 +121,7 @@
                 </div>
                 
                 <div class="editor-body code">
-                    
+                    <!-- Tab Content: Competitive Programming -->
                     <div class="code-content content-cp">
                         <div class="code-line"><span class="c-keyword">#include</span> <span class="c-string">&lt;bits/stdc++.h&gt;</span></div>
                         <div class="code-line"><span class="c-keyword">using namespace</span> std;</div>
@@ -126,6 +143,7 @@
                         <div class="code-line">}</div>
                     </div>
                     
+                    <!-- Tab Content: C++ -->
                     <div class="code-content content-cpp">
                         <div class="code-line"><span class="c-keyword">#include</span> <span class="c-string">&lt;bits/stdc++.h&gt;</span></div>
                         <div class="code-line"><span class="c-keyword">using namespace</span> std;</div>
@@ -143,6 +161,7 @@
                         <div class="code-line">};</div>
                     </div>
                     
+                    <!-- Tab Content: Problem Solving -->
                     <div class="code-content content-ps">
                         <div class="code-line"><span class="c-keyword">#include</span> <span class="c-string">&lt;bits/stdc++.h&gt;</span></div>
                         <div class="code-line"><span class="c-keyword">using namespace</span> std;</div>
@@ -166,6 +185,7 @@
                         <div class="code-line">}</div>
                     </div>
                     
+                    <!-- Tab Content: Java -->
                     <div class="code-content content-java">
                         <div class="code-line"><span class="c-keyword">import</span> java.util.*;</div>
                         <div class="code-line"></div>
@@ -186,6 +206,7 @@
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
             <p>&copy; 2026 Kaysan Navid Musyaffa. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
