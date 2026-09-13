@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{'Kaysan Navid Musyaffa'}} - Portfolio</title>
+    <title>{{name}} - Portfolio</title>
 
     <!-- External Fonts & Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -23,8 +23,8 @@
             <nav class="nav-menu">
                 <a href="#about-me" class="nav-link">About Me</a>
                 <a href="#skills" class="nav-link">Skills</a>
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
+                <a href="{% url 'main:show_main' %}" class="nav-link">Profile</a>
+                <a href="{% url 'main:show_experience' %}" class="nav-link">Experience</a>
             </nav>
         </div>
     </header>
@@ -36,26 +36,26 @@
                 <!-- Identity Header -->
                 <div class="hero-identity">
                     <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
-                    <h1>{{'Kaysan Navid Musyaffa'}}</h1>
+                    <h1>{{name}}</h1>
                 </div>
 
                 <!-- Profile Picture -->
                 <div class="hero-photo">
                     <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/Kaysan.jpg" alt="Photo of {{'Kaysan Navid Musyaffa'}}">
+                    <img class="avatar" src="/static/img/Kaysan.jpg" alt="Photo of {{name}}">
                 </div>
 
                 <!-- Bio Details -->
                 <div class="hero-details">
-                    <p class="bio">{{'A competitive programming enjoyer who loves problem solving. Currently studying Computer Science at Universitas Indonesia, focusing on algorithm optimization and writing efficient code. Spending my days turning complex algorithmic challenges into clean, optimized solutions.'}}</p>
+                    <p class="bio">{{bio}}</p>
                     <dl class="meta-list">
                         <div class="meta-row">
                             <dt>NPM</dt>
-                            <dd>{{'2506625470'}}</dd>
+                            <dd>{{npm}}</dd>
                         </div>
                         <div class="meta-row">
                             <dt>Program</dt>
-                            <dd>{{'S1 Ilmu Komputer'}}</dd>
+                            <dd>{{study_program}}</dd>
                         </div>
                     </dl>
 
@@ -211,7 +211,7 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2026 {{'Kaysan Navid Musyaffa'}}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+            <p>&copy; 2026 {{name}}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
 </body>
