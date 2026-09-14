@@ -18,7 +18,7 @@
 body {
     font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--paper);
-    background-color: var(--ink);
+    background-color: #02060f;
     line-height: 1.6;
 }
 
