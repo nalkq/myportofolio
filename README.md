@@ -50,6 +50,8 @@ https://notebook.google.com/notebook/2ff52ba9-dd58-4a22-b8bf-5262db7b016e
 ### Tugas 2
 Pada penggunaan AI kali ini, saya merasa jauh lebih kesulitan dengan AI yang saya gunakan. Beberapa kali permintaan referensi yang saya minta justru malah mengubah struktur paten kode yang sudah saya miliki sebelumnya. Sehingga, saya cukup sering mengubah manual referensi kode yang diberikan agar sesuai dengan yang saya butuhkan. Contohnya ketika saya meminta referensi test case karena saya masih cukup bingung dengan hal itu, AI justru memberikan struktur kode yang jauh berbeda dengan struktur kode yang saya miliki. Lalu ketika saya meminta referensi untuk mengubah warna background projek saya agar sesuai dengan background modul `experience` yang AI berikan, AI justru malah mengubah hal-hal yang tidak perlu sehingga saya harus melakukan perubahan manual yang benar-benar tidak merusak struktur kode yang saya miliki saat ini.
 
+#### Additional Note for Individual Assignment 2: Saya masih bingung bagaimana cara mengakali deksripsi page agar memiliki font yang sesuai dengan class yang saya sudah buat di style.css, sehingga saya memutuskan untuk menggunakan syntax |safe pada bagian description skill mauapun experience yang saya punya, sehingga ketika saya menambah data untuk description, saya masih memasukkan syntax html untuk mendefinisikan class pada style.css apa yang ingin digunakan.
+
 https://share.gemini.google/i9P0nHMV5RuJ
 
 ## Pertanyaan Reflektif
