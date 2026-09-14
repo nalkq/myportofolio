@@ -280,6 +280,7 @@ header.site-header::after {
 /* Skills Section */
 .skills-section {
     padding: 5rem 1.5rem;
+    padding-top: 120px;
 }
 
 .section-title {
@@ -489,6 +490,7 @@ html {
 
 .section-header {
     margin-bottom: 40px;
+    padding-top: 60px;
 }
 
 .section-title {
