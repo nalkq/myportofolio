@@ -30,51 +30,45 @@
     </header>
 
     <main>
-        <section class="experience-section" id="experience">
+        <section id="experience" class="experience-section">
             <div class="container">
-                <p class="section-kicker">Perjalanan saya sejauh ini</p>
-                <h1>Experience</h1>
+                
+                <header class="section-header">
+                    <h2 class="section-title">Experience</h2>
+                </header>
 
-                <div class="experience-grid">
-                    {% for experience in experience_list %}
-                        <article class="experience-card">
-                            <span class="experience-category">
-                                {{ experience.get_category_display }}
-                            </span>
-                            <h2>{{ experience.title }}</h2>
-                            <p class="experience-description">
-                                {{ experience.description }}
-                            </p>
+                <div class="cyber-timeline">
+                    
+                    {% for log in experiences %}
+                    
+                    <article class="timeline-item {% if log.is_active %}active{% endif %}">
+                        <div class="timeline-dot"></div>
+                        
+                        <div class="timeline-content">
+                            <header class="log-header">
+                                <span></span>
+                                <span class="log-date">{{ log.date_range }}</span>
+                            </header>
+                            
+                            <h3 class="role-title">{{ log.title }} <span class="company">@ {{ log.company }}</span></h3>
+                            
+                            <div class="log-details">
+                                {{ log.description|safe }}
+                            </div>
+                        </div>
+                    </article>
 
-                            {% if experience.is_ongoing %}
-                                <p class="experience-status">Sedang berlangsung</p>
-                            {% else %}
-                                <p class="experience-status">Selesai</p>
-                            {% endif %}
-                        </article>
                     {% empty %}
-                        <p class="empty-state">
-                            Belum ada pengalaman yang ditambahkan.
-                        </p>
+                    <div class="log-details">
+                        <p>Belum ada data experience yang ditambahkan pada halaman ini.</p>
+                    </div>
+                    
                     {% endfor %}
+
                 </div>
             </div>
         </section>
-        <section class="container" style="margin-top: 2rem;">
-            <h2>Daftar Mahasiswa</h2>
-            <ul style="list-style: none; padding: 0;">
-                {% for mhs in list_mahasiswa %}
-                    <li>
-                        <span>{{ mhs.nama }}</span>
-                        <span>{{ mhs.npm }}</span>
-                    </li>
-                {% empty %}
-                    <li>Belum ada data mahasiswa.</li>
-                {% endfor %}
-            </ul>
-        </section>
     </main>
-
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
