@@ -30,6 +30,7 @@ def show_experience(request):
 def show_skills(request):
     skills_data = Skill.objects.all()
     context = {
+        "name": "Kaysan Navid Musyaffa",
         'skills': skills_data,
     }
     return render(request, 'skills.html', context)
