@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from main.models import Experience
 from .models import Mahasiswa
+from .models import Skill
 
 
 def show_main(request):
@@ -18,7 +19,6 @@ def show_main(request):
     }
     return render(request, "index.html", context)
 
-
 def show_experience(request):
     context = {
         "name": "Kaysan Navid Musyaffa",
@@ -26,3 +26,10 @@ def show_experience(request):
         "list_mahasiswa": Mahasiswa.objects.all(),
     }
     return render(request, "experience.html", context)
+
+def show_skills(request):
+    skills_data = Skill.objects.all()
+    context = {
+        'skills': skills_data,
+    }
+    return render(request, 'skills.html', context)

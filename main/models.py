@@ -31,3 +31,11 @@ class Mahasiswa(models.Model):
 
     def __str__(self):
         return f"{self.nama} - {self.npm}"
+
+class Skill(models.Model):
+    name = models.CharField(max_length=100)        
+    category = models.CharField(max_length=50)     
+    description = models.TextField()               
+
+    def __str__(self):
+        return self.name
