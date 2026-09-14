@@ -33,9 +33,10 @@ class Mahasiswa(models.Model):
         return f"{self.nama} - {self.npm}"
 
 class Skill(models.Model):
-    name = models.CharField(max_length=100)        
-    category = models.CharField(max_length=50)     
-    description = models.TextField()               
+    name = models.CharField(max_length=100)
+    short_name = models.CharField(max_length=20, default='')
+    icon_class = models.CharField(max_length=50) 
+    code_snippet = models.TextField()            
 
     def __str__(self):
         return self.name

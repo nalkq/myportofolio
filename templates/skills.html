@@ -30,6 +30,47 @@
     </header>
 
     <main>
+        {% block content %}
+        <section class="skills-section container">
+            <h2 class="section-title">Skills</h2>
+            
+            <div class="editor-container" id="skills">
+                
+                {% for skill in skills %}
+                    <input type="radio" id="tab-{{ skill.short_name }}" name="editor-tabs" {% if forloop.first %}checked{% endif %} hidden>
+                {% endfor %}
+                
+                <div class="editor-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    
+                    <div class="editor-tabs-menu">
+                        {% for skill in skills %}
+                            <label for="tab-{{ skill.short_name }}" class="tab-btn label-{{ skill.short_name }}">
+                                <i class="bi {{ skill.icon_class }}"></i> {{ skill.name }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="editor-body code">
+                    {% for skill in skills %}
+                        <div class="code-content content-{{ skill.short_name }}">
+                            {{ skill.code_snippet|safe }}
+                        </div>
+                    {% empty %}
+                        <div class="p-4 text-center text-white">
+                            <p>Belum ada data skill yang ditambahkan pada halaman ini.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </section>
+        {% endblock %}
     </main>
 
     <!-- Footer -->
