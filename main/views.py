@@ -19,13 +19,12 @@ def show_main(request):
     }
     return render(request, "index.html", context)
 
-def show_experience(request):
+def show_experience(request):    
     context = {
-        "name": "Kaysan Navid Musyaffa",
-        "experience_list": Experience.objects.all(),
-        "list_mahasiswa": Mahasiswa.objects.all(),
+        'name': 'Kaysan Navid Musyaffa',
+        'experiences': Experience.objects.all(),
     }
-    return render(request, "experience.html", context)
+    return render(request, 'experience.html', context)
 
 def show_skills(request):
     skills_data = Skill.objects.all()
