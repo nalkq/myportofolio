@@ -1,43 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experience - {{name}}</title>
-
-    <!-- External Fonts & Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="site-header">
-        <div class="container header-container">
-            <a href="{% url 'main:show_main' %}" class="nav-link">Profile</a>
-            
-            <nav class="nav-menu">
-                <a href="{% url 'main:show_experience' %}" class="nav-link">Experience</a>
-                <a href="{% url 'main:show_skills' %}" class="nav-link">Skills</a>
-            </nav>
-        </div>
-    </header>
-
+{% extends 'base.html' %}
+{% block content %}
     <main>
         <section id="experience" class="experience-section">
             <div class="container">
                 
                 <header class="section-header">
                     <h2 class="section-title">Experience</h2>
+
+                    <a href="{% url 'main:create_experience' %}" class="button experience-add-button">
+                        <span aria-hidden="true">+</span>
+                        Tambah Pengalaman
+                    </a>
                 </header>
+
+                <form method="get" action="{% url 'main:show_experience' %}" class="experience-search">
+                    <input type="search"
+                           name="title"
+                           value="{{ title_query }}"
+                           placeholder="Cari berdasarkan nama pengalaman"
+                           class="experience-search__input"
+                           aria-label="Cari berdasarkan nama pengalaman">
+                    <button type="submit" class="button">Cari</button>
+                </form>
 
                 <div class="cyber-timeline">
                     
-                    {% for log in experiences %}
+                    {% for log in experience_list %}
                     
                     <article class="timeline-item {% if log.is_active %}active{% endif %}">
                         <div class="timeline-dot"></div>
@@ -53,12 +41,20 @@
                             <div class="log-details">
                                 {{ log.description|safe }}
                             </div>
+
+                            <div class="experience-actions" style="margin-top: 15px;">
+                                {% include "components/experience_delete_modal.html" with experience=log %}
+                            </div>
                         </div>
                     </article>
 
                     {% empty %}
                     <div class="log-details">
-                        <p>Belum ada data experience yang ditambahkan pada halaman ini.</p>
+                        {% if title_query %}
+                            <p class="empty-state">Tidak ada pengalaman dengan nama tersebut.</p>
+                        {% else %}
+                            <p class="empty-state">Belum ada data experience yang ditambahkan pada halaman ini.</p>
+                        {% endif %}
                     </div>
                     
                     {% endfor %}
@@ -67,11 +63,4 @@
             </div>
         </section>
     </main>
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 {{name}}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
-        </div>
-    </footer>
-</body>
-</html>
+{% endblock content %}
