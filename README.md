@@ -6,10 +6,10 @@ Kelas : PBP B
 
 ## Panduan Jalankan Aplikasi Secara Lokal
 
-#### 1. Clone Repositori Buka terminal/command prompt, lalu klon repositori GitHub kamu ke komputer lokal:
+#### 1. Clone Repositori Buka terminal/command prompt, lalu klon repositori GitHub kita ke komputer lokal:
 ``` 
-git clone https://github.com/nalkq/[nama-repo-kamu].git
-cd [nama-repo-kamu]
+git clone https://github.com/nalkq/[nama-repo-kita].git
+cd [nama-repo-kita]
 ``` 
 
 #### 2. Buat dan Aktifkan Virtual Environment Gunakan virtual environment agar pustaka (library) proyek ini terisolasi dengan rapi dan tidak bentrok dengan proyek lain:
@@ -54,6 +54,11 @@ Pada penggunaan AI kali ini, saya merasa jauh lebih kesulitan dengan AI yang say
 
 https://share.gemini.google/i9P0nHMV5RuJ
 
+### Tugas 3
+Pada penggunaan AI kali ini, saya cukup kesulitan ketika mengerjakan tutorial 3 karena hal yang saya lakukan merupakan hal baru yang saya tidak ketahui sebeumnya. Namun setelah selesai mengerjakan tutorial 3, saya sudah cukup paham dengan apa yang harus dilakukan sehingga ketika mengerjakan tugas 3 saya tidak merasakan kesulitan yang cukup signifikan, dikarenakan pada tugas kali ini tugasnya hanyalah refactor kode yang sudah saya punya sehingga saya lebih sering menggunakan AI sebagai panduan inovasi style yang ingin saya ubah dan saya tidak menemukan kesulitan pada saat pengerjaannya. Saya juga menggunakan AI untuk membantu saya menjawab pertanyaan reflektif yang saya tidak pahami sama sekali pada awalnya.
+
+https://share.gemini.google/itof7uukcyBN
+
 ## Pertanyaan Reflektif
 ### Tugas 1
 
@@ -82,3 +87,25 @@ Dengan menyimpan data pada model, tentu hal tersebut akan memudahkan kita ketika
 
 #### 3. Apa perbedaan fungsi makemigrations dan migrate pada Django? Berikan contoh perubahan model yang mengharuskanmu menjalankan kedua perintah tersebut.
 `makemigrations` bertugas untuk mendeteksi perubahan pada `models.py` dan membuat file draft dari perubahan tersebut, sedangkan `migrate` bertugas mengeksekusi file draft tersebut sebagai patokan untuk mengubah struktur tabel di dalam database. Contoh perubahan model berdasarkan yang terjadi pada projek saya adalah ketika saya ingin mengubah nama class `Skill` saya menjadi `Skills` dan ketika saya ingin menambah variabel `code_snippet`, kesimpulannya adalah `makemigrations` dan `migrate` wajib dilakukan ketika kita mengubah apapun walau sedikit di bagian model agar perubahan tersebut diterapkan ke database.
+
+### Tugas 3
+
+#### 1. Jelaskan mengapa kita menggunakan ModelForm pada Django alih-alih membuat form HTML secara manual. Selain itu, jelaskan pula mengapa kita diwajibkan menambahkan {% csrf_token %} pada form tersebut!
+- Prinsip DRY (Don't Repeat Yourself): Jika kita menggunakan form HTML manual, kita harus menulis ulang atribut field (seperti tipe data, panjang maksimal, keharusan isi) yang sebenarnya sudah didefinisikan di `models.py`. Dengan `ModelForm`, Django secara otomatis membuat form berdasarkan model yang sudah ada.
+- Validasi Otomatis: `ModelForm` secara otomatis memvalidasi data berdasarkan konstrain yang ada di model. Jika data tidak valid, Django akan mengembalikan pesan error tanpa harus kita program secara manual.
+- Kemudahan Menyimpan Data: Dengan `ModelForm`, menyimpan data ke database sangat ringkas. kita cukup memanggil `form.save()` di views, dan Django akan mengurus pembuatan objek baru di database.
+
+CSRF merupakan singkatan dari Cross-Site Request Forgery. Ini adalah celah keamanan di mana situs berbahaya mencoba mengirimkan request (biasanya POST) dengan memanfaatkan kredensial/sesi pengguna yang sedang login di situs aslimu. Tag {% csrf_token %} akan men-generate token unik dan rahasia ke dalam form HTML. Saat form di-submit, Django akan mencocokkan token ini. Jika tidak ada atau tidak cocok, Django akan menolak request tersebut demi keamanan.
+
+
+#### 2. Pada Tutorial 03, kita membahas format data JSON dan XML. Mengapa JSON lebih disukai dalam pengembangan aplikasi web modern dibandingkan XML?
+Karena JSON lebih rapi dan lebih enak dibaca. Misal untuk menulis nama saja, jika menggunakan XML maka kita harus menulis syntax `<nama>Kaysan</nama>`, sedangkan jika menggunakan JSON, kita hanya perlu menulis syntax `"nama": "Kaysan"`. Syntax JSON disini jauh lebih mudah untuk dimengerti dibanding XML. Selain itu, formatnya yang sederhana dapat berpengaruh pada ukuran datanya yang jadi lebih kecil dan loading website yang menjadi lebih cepat.
+
+#### 3. Jelaskan alur yang terjadi saat kamu menggunakan fungsi view untuk mengembalikan data portofoliomu dalam bentuk JSON. Mengapa kita perlu melakukan proses serialization pada model Django sebelum datanya dikembalikan?
+Alur yang terjadi saat view mengembalikan data JSON:
+1. Menerima Request: Fungsi view menerima request HTTP dari klien (browser).
+2. Mengambil Data: View menggunakan Django ORM untuk mengambil data dari database (contoh: pengalaman = Experience.objects.all()). Hasil dari proses ini adalah `QuerySet`, yaitu kumpulan objek Python/Django.
+3. Proses Serialization: `QuerySet` yang berisi objek Python tersebut dimasukkan ke dalam fungsi serializer Django (contoh: serializers.serialize('json', pengalaman)).
+4. Mengirim Response: Data yang sudah diubah menjadi string berformat JSON tadi dimasukkan ke dalam `HttpResponse` dengan tipe konten application/json, lalu dikirim kembali ke klien.
+
+Simpelnya, data yang diambil dari database melalui Django ORM berbentuk objek Python yang kompleks. Sedangkan, Web browser atau aplikasi klien tidak mengerti apa itu "objek Python". Oleh karena itu, kita butuh Serialization, yaitu proses menerjemahkan objek Python yang kompleks tersebut menjadi format teks standar dan universal (seperti JSON). Dengan begitu, datanya bisa dikirim melalui protokol HTTP dan dipahami serta diolah oleh berbagai macam klien
