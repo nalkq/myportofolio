@@ -1,5 +1,5 @@
-from django.forms import ModelForm, TextInput, Textarea, CheckboxInput
-from main.models import Experience
+from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, URLInput
+from main.models import Experience, Skill
 
 class ExperienceForm(ModelForm):
     class Meta:
@@ -43,4 +43,30 @@ class ExperienceForm(ModelForm):
                 }
             ),
             "is_active": CheckboxInput(), 
+        }
+
+class SkillForm(ModelForm):
+    class Meta:
+        model = Skill
+        fields = [
+            "name",
+            "image_url",
+        ]
+
+        labels = {
+            "name": "Nama Skill",
+            "image_url": "URL Gambar Logo",
+        }
+
+        widgets = {
+            "name": TextInput(
+                attrs={
+                    "placeholder": "Contoh: Python, C++, atau Django",
+                }
+            ),
+            "image_url": URLInput(
+                attrs={
+                    "placeholder": "Contoh: https://link-ke-gambar-logo.com/logo.png",
+                }
+            ),
         }
