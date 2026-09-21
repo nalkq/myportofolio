@@ -6,10 +6,10 @@ Kelas : PBP B
 
 ## Panduan Jalankan Aplikasi Secara Lokal
 
-#### 1. Clone Repositori Buka terminal/command prompt, lalu klon repositori GitHub kita ke komputer lokal:
+#### 1. Clone Repositori Buka terminal/command prompt, lalu klon repositori GitHub kamu ke komputer lokal:
 ``` 
-git clone https://github.com/nalkq/[nama-repo-kita].git
-cd [nama-repo-kita]
+git clone https://github.com/nalkq/[nama-repo-kamu].git
+cd [nama-repo-kamu]
 ``` 
 
 #### 2. Buat dan Aktifkan Virtual Environment Gunakan virtual environment agar pustaka (library) proyek ini terisolasi dengan rapi dan tidak bentrok dengan proyek lain:
