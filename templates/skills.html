@@ -1,43 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
     <main>
-        <section class="skills-section container">
-            <h2 class="section-title">Skills</h2>
-            
-            <div class="editor-container" id="skills">
+        <section id="skill" class="skill-section">
+            <div class="container">
                 
-                {% for skill in skills %}
-                    <input type="radio" id="tab-{{ skill.short_name }}" name="editor-tabs" {% if forloop.first %}checked{% endif %} hidden>
-                {% endfor %}
-                
-                <div class="editor-header">
-                    <div class="window-controls">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    
-                    <div class="editor-tabs-menu">
-                        {% for skill in skills %}
-                            <label for="tab-{{ skill.short_name }}" class="tab-btn label-{{ skill.short_name }}">
-                                <i class="bi {{ skill.icon_class }}"></i> {{ skill.name }}
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-                
-                <div class="editor-body code">
-                    {% for skill in skills %}
-                        <div class="code-content content-{{ skill.short_name }}">
-                            {{ skill.code_snippet|safe }}
-                        </div>
-                    {% empty %}
-                        <div class="p-4 text-center text-white">
-                            <p>Belum ada data skill yang ditambahkan pada halaman ini.</p>
-                        </div>
-                    {% endfor %}
-                </div>
+                <header class="section-header">
+                    <h2 class="section-title">Skills</h2>
 
+                    <a href="{% url 'main:create_skill' %}" class="button experience-add-button">
+                        <span aria-hidden="true">+</span>
+                        Tambah Skill
+                    </a>
+                </header>
+
+                <form method="get" action="{% url 'main:show_skills' %}" class="skill-search">
+                    <input type="search"
+                           name="title"
+                           value="{{ title_query }}"
+                           placeholder="Cari berdasarkan nama skill"
+                           class="skill-search__input"
+                           aria-label="Cari berdasarkan nama skill">
+                    <button type="submit" class="button">Cari</button>
+                </form>
+
+                <div class="skill-grid">
+                    
+                    {% for skill in skills %}
+                    <article class="cyber-card">
+                        <div class="cyber-card-inner">
+                            <div class="skill-icon-wrapper">
+                                {% if skill.image_url %}
+                                    <img src="{{ skill.image_url }}" alt="{{ skill.name }}" class="skill-icon">
+                                {% else %}
+                                    <span class="skill-placeholder">?</span>
+                                {% endif %}
+                            </div>
+                            
+                            <h3 class="skill-name">{{ skill.name }}</h3>
+                            
+                            <div style="margin-top: 15px; display: flex; justify-content: center;">
+                                {% include "components/skill_delete_modal.html" with skill=skill %}
+                            </div>
+                        </div>
+                    </article>
+
+                    {% empty %}
+                    <div class="log-details" style="grid-column: 1 / -1; text-align: center;">
+                        {% if title_query %}
+                            <p class="empty-state">Tidak ada skill dengan nama tersebut.</p>
+                        {% else %}
+                            <p class="empty-state">Belum ada skill yang ditambahkan pada halaman ini.</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                </div>
             </div>
         </section>
     </main>

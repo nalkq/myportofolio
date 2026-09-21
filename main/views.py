@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from main.models import Experience
 from .models import Skill
-from main.forms import ExperienceForm 
+from main.forms import ExperienceForm, SkillForm
 
 
 def show_main(request):
@@ -40,10 +40,17 @@ def show_experience(request):
     return render(request, "experience.html", context)
 
 def show_skills(request):
+    title_query = request.GET.get("title", "").strip()
+    
     skills_data = Skill.objects.all()
+
+    if title_query:
+        skills_data = skills_data.filter(name__icontains=title_query)
+
     context = {
         "name": "Kaysan Navid Musyaffa",
-        'skills': skills_data,
+        "skills": skills_data,
+        "title_query": title_query, 
     }
     return render(request, 'skills.html', context)
 
@@ -82,3 +89,38 @@ def get_experience_json(request):
 
     experiences_json = serializers.serialize("json", experiences)
     return HttpResponse(experiences_json, content_type="application/json")
+
+def create_skill(request):
+    form = SkillForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Skill baru berhasil ditambahkan!")
+        return redirect("main:show_skills")
+
+    context = {
+        "name": "Kaysan Navid Musyaffa", 
+        "form": form,
+    }
+    
+    return render(request, "skill_form.html", context)
+
+def delete_skill(request, skill_id):
+    skill = get_object_or_404(Skill, pk=skill_id)
+
+    if request.method == "POST":
+        skill.delete()
+        messages.success(request, "Skill berhasil dihapus!")
+        return redirect("main:show_skills")
+
+    return redirect("main:show_skills")
+
+def get_skill_json(request):
+    title_query = request.GET.get("title", "").strip()
+    skills = Skill.objects.all()
+
+    if title_query:
+        skills = skills.filter(title__icontains=title_query)
+
+    skills_json = serializers.serialize("json", skills)
+    return HttpResponse(skills_json, content_type="application/json")
