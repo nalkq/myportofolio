@@ -1,16 +1,11 @@
-<!-- Tombol Trigger untuk Popover -->
-<p class="experience-status" style="margin-top: 15px; display: flex; justify-content: center;">
-    <button type="button"
-            class="button button-danger"
-            popovertarget="delete-skill-{{ skill.id }}"
-            aria-label="Hapus {{ skill.name }}"
-            title="Hapus skill"
-            style="background-color: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 5px 15px; font-size: 0.9rem;">
-        Hapus
-    </button>
-</p>
+<button type="button"
+        class="skill-action-btn delete"
+        popovertarget="delete-skill-{{ skill.id }}"
+        aria-label="Hapus {{ skill.name }}"
+        title="Hapus skill">
+    Hapus
+</button>
 
-<!-- Modal Popover -->
 <div id="delete-skill-{{ skill.id }}"
      class="experience-delete-modal"
      popover="auto"

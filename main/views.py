@@ -124,3 +124,20 @@ def get_skill_json(request):
 
     skills_json = serializers.serialize("json", skills)
     return HttpResponse(skills_json, content_type="application/json")
+
+def edit_skill(request, skill_id):
+    skill = get_object_or_404(Skill, pk=skill_id)
+
+    form = SkillForm(request.POST or None, instance=skill)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Skill berhasil diperbarui!")
+        return redirect("main:show_skills")
+
+    context = {
+        "name": "Kaysan Navid Musyaffa",
+        "form": form,
+        "skill": skill,
+    }
+    return render(request, "edit_skill.html", context)
