@@ -38,7 +38,11 @@
                             
                             <h3 class="skill-name">{{ skill.name }}</h3>
                             
-                            <div style="margin-top: 15px; display: flex; justify-content: center;">
+                            <div class="skill-actions">
+                                <a href="{% url 'main:edit_skill' skill.pk %}" class="skill-action-btn edit">
+                                    Edit
+                                </a>
+
                                 {% include "components/skill_delete_modal.html" with skill=skill %}
                             </div>
                         </div>

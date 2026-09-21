@@ -850,3 +850,64 @@ html {
     max-width: 600px;
     margin-top: 20px;
 }
+
+/* Pastikan container tombol dipaksa ke samping (row) dan posisinya di tengah */
+.skill-actions {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Ukuran, padding, dan bentuk kedua tombol dijamin kembar */
+.skill-action-btn {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: normal;
+    background-color: transparent;
+    transition: all 0.2s ease;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.skill-action-btn.edit {
+    border: 1px solid #ffbb00;
+    color: #ffbb00;
+}
+.skill-action-btn.edit:hover {
+    background-color: #ffbb00;
+    color: #0f1117;
+}
+
+.skill-action-btn.delete {
+    border: 1px solid #ff4444;
+    color: #ff4444;
+}
+.skill-action-btn.delete:hover {
+    background-color: #ff4444;
+    color: #ffffff;
+}
+
+.form-group {
+    text-align: left !important;
+}
+
+.form-group input[type="checkbox"] {
+    display: inline-block !important;
+    width: auto !important;
+    margin-top: 8px;
+    cursor: pointer;
+    transform: scale(1.1); 
+}

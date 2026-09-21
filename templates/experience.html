@@ -43,6 +43,9 @@
                             </div>
 
                             <div class="experience-actions" style="margin-top: 15px;">
+                                <a href="{% url 'main:edit_experience' log.pk %}" class="skill-action-btn edit">
+                                    Edit
+                                </a>
                                 {% include "components/experience_delete_modal.html" with experience=log %}
                             </div>
                         </div>
