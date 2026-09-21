@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 {% block meta %}
-    <title>Add Skill - {{ name }}</title>
+    <title>Skill Form - {{ name }}</title>
 {% endblock meta %}
 {% block content %}
     <main>
         <section class="skill-form-section">
             <div class="container">
-                <h1>Add New Skill</h1>
+                <h1>Add New Skills</h1>
                 
-                <form method="post"
-                      action="{% url 'main:create_skill' %}"
-                      class="skill-form">
+                <form method="post" class="skill-form">
                     {% csrf_token %}
                     
                     {% for field in form %}
@@ -24,8 +22,8 @@
                         </div>
                     {% endfor %}
                     
-                    <div style="margin-top: 30px; display: flex; gap: 15px;">
-                        <button type="submit" class="button">Tambah Skill</button>
+                    <div class="form-actions">
+                        <button type="submit" class="button">Simpan</button>
                         <a href="{% url 'main:show_skills' %}" class="button button-secondary">Batal</a>
                     </div>
                 </form>

@@ -7,8 +7,8 @@
                 <header class="section-header">
                     <h2 class="section-title">Experience</h2>
 
-                    <a href="{% url 'main:create_experience' %}" class="button experience-add-button">
-                        <span aria-hidden="true">+</span>
+                    <a href="{% url 'main:create_experience' %}" class="add-btn">
+                        <span aria-hidden="true"></span>
                         Tambah Pengalaman
                     </a>
                 </header>
@@ -20,7 +20,7 @@
                            placeholder="Cari berdasarkan nama pengalaman"
                            class="experience-search__input"
                            aria-label="Cari berdasarkan nama pengalaman">
-                    <button type="submit" class="button">Cari</button>
+                    <button type="submit" class="search-btn">Cari</button>
                 </form>
 
                 <div class="cyber-timeline">
@@ -39,10 +39,10 @@
                             <h3 class="role-title">{{ log.title }} <span class="company">@ {{ log.company }}</span></h3>
                             
                             <div class="log-details">
-                                {{ log.description|safe }}
+                                {{ log.description }}
                             </div>
 
-                            <div class="experience-actions" style="margin-top: 15px;">
+                            <div class="experience-actions">
                                 <a href="{% url 'main:edit_experience' log.pk %}" class="skill-action-btn edit">
                                     Edit
                                 </a>

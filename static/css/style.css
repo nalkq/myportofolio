@@ -348,19 +348,23 @@ html {
 }
 
 .experience-section {
-    padding: 60px 20px;
+    padding-top: 100px; 
+    padding-bottom: 40px;
     background-color: #02060f;
     color: #e2e8f0;
 }
 
 .experience-section .container {
-    max-width: 800px;
+    max-width: 960px;
     margin: 0 auto;
 }
 
 .section-header {
-    margin-bottom: 40px;
-    padding-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px;
 }
 
 .section-title {
@@ -421,19 +425,18 @@ html {
 }
 
 .timeline-content {
-    background: rgba(10, 20, 35, 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(10, 20, 35, 0.85);
     border: 1px solid rgba(0, 240, 255, 0.15);
     border-radius: 8px;
     padding: 24px;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform; 
 }
 
 .timeline-content:hover {
-    transform: translateX(5px);
+    transform: translateX(4px); 
     border-color: rgba(0, 240, 255, 0.6);
-    box-shadow: 0 10px 20px -5px rgba(0, 240, 255, 0.2);
+    box-shadow: 0 8px 16px -4px rgba(0, 240, 255, 0.2);
 }
 
 .log-header {
@@ -615,19 +618,12 @@ html {
 }
 
 .experience-search__input {
-    width: 100%;
-    min-width: 0;
-    padding: 0.7rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: #fff;
-    color: var(--ink);
-    font: inherit;
-}
-
-.experience-search__input:focus {
-    outline: 2px solid var(--accent);
-    border-color: var(--accent);
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color, #4a4e69);
+    background: var(--bg-secondary, #1a1a2e);
+    color: var(--text-primary, #ffffff);
 }
 
 .experience-actions {
@@ -745,7 +741,9 @@ html {
     }
 
     .experience-search {
-        flex-direction: column;
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
     }
 
     .experience-search .button {
@@ -774,7 +772,8 @@ html {
 }
 
 .skill-section {
-    padding: 40px 0;
+    padding-top: 100px;
+    padding-bottom: 40px;
 }
 
 .skill-grid {
@@ -843,7 +842,8 @@ html {
 }
 
 .skill-form-section {
-    padding: 40px 0;
+    padding-top: 100px; 
+    padding-bottom: 40px;
 }
 
 .skill-form {
@@ -910,4 +910,67 @@ html {
     margin-top: 8px;
     cursor: pointer;
     transform: scale(1.1); 
+}
+
+.add-btn {
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+    color: #ffffff;
+}
+
+/* Tombol Cari dengan tema Cyber / Neon Outline */
+.search-btn {
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 210, 255, 0.2);
+}
+
+.search-btn:hover {  
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+    color: #ffffff;
+}
+
+/* Container untuk pesan kosong (Empty State) yang merentang selebar grid */
+.skill-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Container untuk tombol aksi di halaman Form (Add/Edit) */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Styling untuk ikon plus pada tombol tambah skill */
+.skill-add-icon {
+    font-size: 1.1rem;
+    font-weight: bold;
 }

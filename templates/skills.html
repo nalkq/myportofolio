@@ -7,8 +7,8 @@
                 <header class="section-header">
                     <h2 class="section-title">Skills</h2>
 
-                    <a href="{% url 'main:create_skill' %}" class="button experience-add-button">
-                        <span aria-hidden="true">+</span>
+                    <a href="{% url 'main:create_skill' %}" class="add-btn">
+                        <span aria-hidden="true"></span>
                         Tambah Skill
                     </a>
                 </header>
@@ -20,7 +20,7 @@
                            placeholder="Cari berdasarkan nama skill"
                            class="skill-search__input"
                            aria-label="Cari berdasarkan nama skill">
-                    <button type="submit" class="button">Cari</button>
+                    <button type="submit" class="search-btn">Cari</button>
                 </form>
 
                 <div class="skill-grid">
@@ -49,7 +49,7 @@
                     </article>
 
                     {% empty %}
-                    <div class="log-details" style="grid-column: 1 / -1; text-align: center;">
+                    <div class="skill-empty">
                         {% if title_query %}
                             <p class="empty-state">Tidak ada skill dengan nama tersebut.</p>
                         {% else %}
