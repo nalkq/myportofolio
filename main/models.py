@@ -11,13 +11,6 @@ class Experience(models.Model):
     def __str__(self):
         return f"{self.title} - {self.company}"
 
-class Mahasiswa(models.Model):
-    nama = models.CharField(max_length=30)
-    npm = models.CharField(max_length=10)
-
-    def __str__(self):
-        return f"{self.nama} - {self.npm}"
-
 class Skill(models.Model):
     name = models.CharField(max_length=100)
     short_name = models.CharField(max_length=20, default='')

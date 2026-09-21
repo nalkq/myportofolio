@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from main.models import Experience
-from .models import Mahasiswa
 from .models import Skill
 from main.forms import ExperienceForm 
 
