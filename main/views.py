@@ -90,6 +90,22 @@ def get_experience_json(request):
     experiences_json = serializers.serialize("json", experiences)
     return HttpResponse(experiences_json, content_type="application/json")
 
+def edit_experience(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+
+    form = ExperienceForm(request.POST or None, instance=experience)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("main:show_experience")  
+
+    context = {
+        "name": "Kaysan Navid Musyaffa",
+        "form": form,
+        "experience": experience,
+    }
+    return render(request, "edit_experience.html", context)
+
 def create_skill(request):
     form = SkillForm(request.POST or None)
 
