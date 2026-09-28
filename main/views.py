@@ -2,7 +2,7 @@ import datetime
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 
 from django.core import serializers
@@ -63,10 +63,8 @@ def show_skills(request):
     return render(request, 'skills.html', context)
 
 @login_required(login_url="/login/")
+@permission_required('main.add_experience', raise_exception=True)
 def create_experience(request):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-    
     form = ExperienceForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -83,10 +81,8 @@ def create_experience(request):
     return render(request, "experience_form.html", context)
 
 @login_required(login_url="/login/")
+@permission_required('main.delete_experience', raise_exception=True)
 def delete_experience(request, experience_id):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-    
     experience = get_object_or_404(Experience, pk=experience_id)
 
     if request.method == "POST":
@@ -107,10 +103,8 @@ def get_experience_json(request):
     return HttpResponse(experiences_json, content_type="application/json")
 
 @login_required(login_url="/login/")
+@permission_required('main.change_experience', raise_exception=True)
 def edit_experience(request, experience_id):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-    
     experience = get_object_or_404(Experience, pk=experience_id)
 
     form = ExperienceForm(request.POST or None, instance=experience)
@@ -127,10 +121,8 @@ def edit_experience(request, experience_id):
     return render(request, "edit_experience.html", context)
 
 @login_required(login_url="/login/")
+@permission_required('main.add_skill', raise_exception=True)
 def create_skill(request):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-    
     form = SkillForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -146,10 +138,8 @@ def create_skill(request):
     return render(request, "skill_form.html", context)
 
 @login_required(login_url="/login/")
+@permission_required('main.delete_skill', raise_exception=True)
 def delete_skill(request, skill_id):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-    
     skill = get_object_or_404(Skill, pk=skill_id)
 
     if request.method == "POST":
@@ -170,10 +160,8 @@ def get_skill_json(request):
     return HttpResponse(skills_json, content_type="application/json",)
 
 @login_required(login_url="/login/")
+@permission_required('main.change_skill', raise_exception=True)
 def edit_skill(request, skill_id):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-    
     skill = get_object_or_404(Skill, pk=skill_id)
 
     form = SkillForm(request.POST or None, instance=skill)

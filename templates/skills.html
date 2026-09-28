@@ -7,7 +7,7 @@
                 <header class="section-header">
                     <h2 class="section-title">Skills</h2>
 
-                    {% if user.is_superuser %}
+                    {% if perms.main.add_skill %}
                         <a href="{% url 'main:create_skill' %}" class="add-btn">
                             <span aria-hidden="true"></span>
                             Tambah Skill
@@ -41,15 +41,17 @@
                             <h3 class="skill-name">{{ skill.name }}</h3>
                             
                             {% include "components/skill_star.html" with skill=skill %}
-                            {% if user.is_superuser %}
-                                <div class="skill-actions">
+                            <div class="skill-actions">
+                                {% if perms.main.change_skill %}
                                     <a href="{% url 'main:edit_skill' skill.pk %}" class="skill-action-btn edit">
                                         Edit
                                     </a>
-
+                                {% endif %}  
+                                    
+                                {% if perms.main.delete_skill %}
                                     {% include "components/skill_delete_modal.html" with skill=skill %}
-                                </div>
-                            {% endif %}  
+                                {% endif %}  
+                            </div>
                         </div>
                     </article>
 
