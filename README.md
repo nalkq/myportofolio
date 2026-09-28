@@ -59,6 +59,11 @@ Pada penggunaan AI kali ini, saya cukup kesulitan ketika mengerjakan tutorial 3 
 
 https://share.gemini.google/itof7uukcyBN
 
+### Tugas 4
+Pada penggunaan AI kali ini, saya tidak merasakan kesulitan yang signifikan. Saya hanya menggunakan AI sebagai panduan saya dalam mengintegrasikan perintah tutorial ke dalam kode milik saya serta sebagai sumber belajar saya untuk mengetahui cara kerja dari `permission_required` agar saya bisa mengimplementasikan role Editor dengan baik dan benar.
+
+https://share.gemini.google/5fue21i5PL7j
+
 ## Pertanyaan Reflektif
 ### Tugas 1
 
