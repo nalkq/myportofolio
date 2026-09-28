@@ -95,7 +95,6 @@ header.site-header::after {
     font-family: "Space Grotesk", -apple-system, sans-serif;
     font-size: 0.85rem;
     font-weight: 700; 
-    text-transform: uppercase; 
     letter-spacing: 0.1em; 
     color: #e3d9c9; 
     text-decoration: none;
