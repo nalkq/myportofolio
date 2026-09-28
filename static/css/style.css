@@ -529,7 +529,7 @@ html {
     width: 100%;
     box-sizing: border-box;
     padding: 0.7rem;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--blue);
     border-radius: var(--radius);
     font: inherit;
     transition:
@@ -539,8 +539,8 @@ html {
 
 .form-group input:focus,
 .form-group textarea:focus {
-    outline: 2px solid var(--accent);
-    border-color: var(--accent);
+    outline: 2px solid var(--blue);
+    border-color: var(--blue);
 }
 
 .form-error {

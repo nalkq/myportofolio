@@ -24,9 +24,9 @@
                     {% for error in form.non_field_errors %}
                         <p class="form-error">{{ error }}</p>
                     {% endfor %}
-                    <button type="submit" class="button">Login</button>
+                    <button type="submit" class="add-btn">Login</button>
                 </form>
-                <p>Belum punya akun? <a href="{% url 'main:register' %}">Daftar di sini</a>.</p>
+                <p>Belum punya akun? <a href="{% url 'main:register' %}" class="add-btn">Daftar di sini</a></p>
             </div>
         </section>
     </main>
