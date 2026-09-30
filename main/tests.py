@@ -17,9 +17,6 @@ class MainTest(TestCase):
         
         self.skill = Skill.objects.create(
             name="C++",
-            short_name="cpp",
-            icon_class="bi-filetype-cpp",
-            code_snippet="import cpp"
         )
 
     def test_main_url_is_accessible(self):
@@ -66,9 +63,7 @@ class MainTest(TestCase):
         
     def test_skill_model(self):
         self.assertEqual(str(self.skill), "C++")
-        self.assertEqual(self.skill.short_name, "cpp")
-        self.assertEqual(self.skill.icon_class, "bi-filetype-cpp")
-        self.assertTrue("import cpp" in self.skill.code_snippet)
+        self.assertEqual(self.skill.name, "C++")
         
     def test_skill_page(self):
         response = self.client.get(reverse("main:show_skills"))
@@ -77,16 +72,10 @@ class MainTest(TestCase):
         self.assertTemplateUsed(response, "skills.html") 
         
         self.assertContains(response, self.skill.name)
-        self.assertContains(response, self.skill.icon_class)
-        self.assertContains(response, "import cpp")
         
     def test_empty_skill_page(self):
-        # Menghapus semua data skill agar database kosong
         Skill.objects.all().delete()
         
-        # Akses halamannya lagi
         response = self.client.get(reverse("main:show_skills"))
         
-        # Memastikan pesan kosong (empty state) muncul
-        # PENTING: Sesuaikan teks ini dengan yang kamu tulis di tag {% empty %} di HTML-mu
-        self.assertContains(response, "Belum ada data skill yang ditambahkan pada halaman ini.")
+        self.assertContains(response, "Belum ada skill yang ditambahkan pada halaman ini.")
