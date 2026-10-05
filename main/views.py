@@ -114,16 +114,6 @@ def delete_experience(request, experience_id):
 
     return redirect("main:show_experience")
 
-def get_experience_json(request):
-    title_query = request.GET.get("title", "").strip()
-    experiences = Experience.objects.all()
-
-    if title_query:
-        experiences = experiences.filter(title__icontains=title_query)
-
-    experiences_json = serializers.serialize("json", experiences, use_natural_foreign_keys=True)
-    return HttpResponse(experiences_json, content_type="application/json")
-
 @login_required(login_url="/login/")
 @permission_required('main.change_experience', raise_exception=True)
 def edit_experience(request, experience_id):

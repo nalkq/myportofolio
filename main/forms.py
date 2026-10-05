@@ -47,20 +47,20 @@ class ExperienceForm(ModelForm):
             "is_active": CheckboxInput(), 
         }
         
-        def clean_title(self):
-            title = strip_tags(self.cleaned_data["title"]).strip()
-            if not title:
-                raise ValidationError("Posisi/Jabatan tidak boleh hanya berisi tag HTML.")
-            return title
+    def clean_title(self):
+        title = strip_tags(self.cleaned_data["title"]).strip()
+        if not title:
+            raise ValidationError("Posisi/Jabatan tidak boleh hanya berisi tag HTML.")
+        return title
 
-        def clean_company(self):
-            return strip_tags(self.cleaned_data["company"]).strip()
+    def clean_company(self):
+        return strip_tags(self.cleaned_data["company"]).strip()
 
-        def clean_date_range(self):
-            return strip_tags(self.cleaned_data["date_range"]).strip()
+    def clean_date_range(self):
+        return strip_tags(self.cleaned_data["date_range"]).strip()
 
-        def clean_description(self):
-            return strip_tags(self.cleaned_data["description"]).strip()
+    def clean_description(self):
+        return strip_tags(self.cleaned_data["description"]).strip()
 
 class SkillForm(ModelForm):
     class Meta:
