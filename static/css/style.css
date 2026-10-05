@@ -1002,15 +1002,15 @@ html {
     inset: auto 2rem 2rem auto;
     margin: 0;
     padding: 1rem 1.5rem;
-    border-radius: var(--radius);
-    box-shadow: 0 10px 25px rgba(28, 25, 23, 0.15);
+    border-radius: 8px; 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
     display: none;
     align-items: center;
     gap: 1rem;
     transition: all 0.3s ease;
-    background-color: var(--paper);
-    border: 1px solid var(--line);
-    color: inherit;
+    
+    border: none; 
+    color: #ffffff; 
 }
 
 .toast-component:popover-open {
@@ -1033,17 +1033,17 @@ html {
     font-weight: 700;
     margin-bottom: 0.15rem;
     font-family: "Space Grotesk", -apple-system, sans-serif;
+    color: #ffffff; 
 }
 
 .toast-message {
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.9); 
 }
 
-/* Modifikasi border kiri berdasarkan tipe notifikasi */
-.toast-success { border-left: 4px solid #22c55e; }
-.toast-error { border-left: 4px solid #b42318; }
-.toast-normal { border-left: 4px solid var(--accent); }
+.toast-success { background-color: #22c55e; } 
+.toast-error { background-color: #ef4444; }   
+.toast-normal { background-color: #3b82f6; }  
 
 .experience-form-modal {
     display: none;
