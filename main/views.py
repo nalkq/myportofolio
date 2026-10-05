@@ -86,7 +86,6 @@ def create_experience(request):
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Pengalaman baru berhasil ditambahkan!")
         return redirect("main:show_experience")
 
     context = {
@@ -103,7 +102,6 @@ def delete_experience(request, experience_id):
 
     if request.method == "POST":
         experience.delete()
-        messages.success(request, "Pengalaman berhasil dihapus!")
         return redirect("main:show_experience")
 
     return redirect("main:show_experience")
@@ -133,7 +131,6 @@ def create_skill(request):
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Skill baru berhasil ditambahkan!")
         return redirect("main:show_skills")
 
     context = {
@@ -150,7 +147,6 @@ def delete_skill(request, skill_id):
 
     if request.method == "POST":
         skill.delete()
-        messages.success(request, "Skill berhasil dihapus!")
         return redirect("main:show_skills")
 
     return redirect("main:show_skills")
@@ -190,7 +186,6 @@ def edit_skill(request, skill_id):
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Skill berhasil diperbarui!")
         return redirect("main:show_skills")
 
     context = {
