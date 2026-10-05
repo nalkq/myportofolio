@@ -71,18 +71,13 @@ def show_experience(request):
 
 def show_skills(request):
     title_query = request.GET.get("title", "").strip()
-    
-    skills_data = Skill.objects.all()
-
-    if title_query:
-        skills_data = skills_data.filter(name__icontains=title_query)
 
     context = {
         "name": "Kaysan Navid Musyaffa",
-        "skills": skills_data,
-        "title_query": title_query, 
+        "title_query": title_query,
+        "form": SkillForm(),
     }
-    return render(request, 'skills.html', context)
+    return render(request, "skills.html", context)
 
 @login_required(login_url="/login/")
 @permission_required('main.add_experience', raise_exception=True)
@@ -92,7 +87,6 @@ def create_experience(request):
     if request.method == "POST" and form.is_valid():
         form.save()
         messages.success(request, "Pengalaman baru berhasil ditambahkan!")
-        
         return redirect("main:show_experience")
 
     context = {
@@ -163,13 +157,29 @@ def delete_skill(request, skill_id):
 
 def get_skill_json(request):
     title_query = request.GET.get("title", "").strip()
-    skills = Skill.objects.all()
+    skills = Skill.objects.prefetch_related('starred_by').all()
 
     if title_query:
-        skills = skills.filter(title__icontains=title_query)
+        skills = skills.filter(name__icontains=title_query)
 
-    skills_json = serializers.serialize("json", skills, use_natural_foreign_keys=True)
-    return HttpResponse(skills_json, content_type="application/json",)
+    data = []
+    for skill in skills:
+        starred_users = skill.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(skill.id),
+            "fields": {
+                "name": skill.name,          
+                "url": skill.image_url,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 @login_required(login_url="/login/")
 @permission_required('main.change_skill', raise_exception=True)
@@ -263,6 +273,24 @@ def create_experience_ajax(request):
         experience = form.save()
         return JsonResponse(
             {"message": "Pengalaman berhasil ditambahkan.", "pk": str(experience.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
+@require_POST
+def create_skill_ajax(request):
+    if not request.user.has_perm('main.add_skill'):
+        return JsonResponse(
+            {"message": "Anda tidak memiliki izin untuk menambahkan skill."},
+            status=403,
+        )
+
+    form = SkillForm(request.POST)
+    if form.is_valid():
+        skill = form.save()
+        return JsonResponse(
+            {"message": "Skill berhasil ditambahkan.", "pk": str(skill.id)},
             status=201,
         )
 

@@ -6,7 +6,7 @@ from main.views import (
     create_skill, get_skill_json, delete_skill, edit_skill,
     register, login_user, logout_user,
     toggle_star_experience, toggle_star_skill,
-    create_experience_ajax
+    create_experience_ajax, create_skill_ajax
 )
 
 app_name = "main"
@@ -34,4 +34,5 @@ urlpatterns = [
     path("skill/<int:skill_id>/star/", toggle_star_skill, name="toggle_star_skill"),
     
     path("experience/add-ajax/", create_experience_ajax, name="create_experience_ajax"),
+    path("skill/add-ajax/", create_skill_ajax, name="create_skill_ajax"),
 ]
