@@ -4,9 +4,9 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
-
+from django.views.decorators.http import require_POST
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from main.models import Experience
@@ -30,20 +30,42 @@ def show_main(request):
     }
     return render(request, "index.html", context)
 
-def show_experience(request):
-    json_response = get_experience_json(request)
+def get_experience_json(request):
+    title_query = request.GET.get("title", "").strip()
+    experiences = Experience.objects.prefetch_related('starred_by').all()
 
-    experiences = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    experiences = [experience.object for experience in experiences]
+    if title_query:
+        experiences = experiences.filter(title__icontains=title_query)
+
+    data = []
+    for experience in experiences:
+        starred_users = experience.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(experience.id),
+            "fields": {
+                "title": experience.title,
+                "company": experience.company,
+                "date_range": experience.date_range,
+                "description": experience.description,
+                "is_active": experience.is_active,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
+
+def show_experience(request):
     title_query = request.GET.get("title", "").strip()
 
     context = {
         "name": "Kaysan Navid Musyaffa",
-        "experience_list": experiences,
         "title_query": title_query,
+        "form": ExperienceForm(),
     }
     return render(request, "experience.html", context)
 
@@ -237,3 +259,21 @@ def toggle_star_skill(request, skill_id):
             skill.starred_by.add(request.user)
 
     return redirect("main:show_skills")
+
+@require_POST
+def create_experience_ajax(request):
+    if not request.user.has_perm('main.add_experience'):
+        return JsonResponse(
+            {"message": "Anda tidak memiliki izin untuk menambahkan pengalaman."},
+            status=403,
+        )
+
+    form = ExperienceForm(request.POST)
+    if form.is_valid():
+        experience = form.save()
+        return JsonResponse(
+            {"message": "Pengalaman berhasil ditambahkan.", "pk": str(experience.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
