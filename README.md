@@ -64,6 +64,11 @@ Pada penggunaan AI kali ini, saya tidak merasakan kesulitan yang signifikan. Say
 
 https://share.gemini.google/5fue21i5PL7j
 
+### Tugas 5 
+Pada penggunaan AI kali ini, saya cukup kesulitan ketika mengerjakan tutorial 5 dan tugas 5 ini. Menurut saya, pengubahan struktur kode pada materi kali ini sangatlah signifkan sehingga saya membutuhkan bantuan AI yang cukup banyak untuk memudahkan saya memahami materi kali ini. Kesulitan yang saya rasakan dalam pengerjaan tugas kali ini adalah terkadang apa yang diarahkan oleh AI tidak sepenuhnya benar, dan pada akhirnya saya harus menyesuaikan kembali arahan yang diberikan oleh AI dengan kode yang saya punya sendiri.
+
+https://share.gemini.google/zJwGWGxNdnVI
+
 ## Pertanyaan Reflektif
 ### Tugas 1
 
@@ -114,3 +119,15 @@ Alur yang terjadi saat view mengembalikan data JSON:
 4. Mengirim Response: Data yang sudah diubah menjadi string berformat JSON tadi dimasukkan ke dalam `HttpResponse` dengan tipe konten application/json, lalu dikirim kembali ke klien.
 
 Simpelnya, data yang diambil dari database melalui Django ORM berbentuk objek Python yang kompleks. Sedangkan, Web browser atau aplikasi klien tidak mengerti apa itu "objek Python". Oleh karena itu, kita butuh Serialization, yaitu proses menerjemahkan objek Python yang kompleks tersebut menjadi format teks standar dan universal (seperti JSON). Dengan begitu, datanya bisa dikirim melalui protokol HTTP dan dipahami serta diolah oleh berbagai macam klien
+
+### Tugas 5
+
+#### 1. Jelaskan apa itu debouncing dan mengapa teknik ini penting diterapkan pada fitur pencarian yang menggunakan AJAX!
+Debouncing adalah teknik untuk menunda eksekusi sebuah fungsi dengan jeda waktu yang ditentukan sejak interaksi terakhir, sehingga fungsi yang akan dipanggil tidak dieksekusi berkali-kali secara instan. Teknik ini penting pada fitur pencarian yang menggunakan AJAX karena ketika mencari, event akan terpicu pada setiap huruf yang diketik. Jika tidak diberikan debouncing maka akan membebani server dengan permintaan yang tidak perlu bahkan bisa memicu race condition.
+
+#### 2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+`await` memberikan perintah ke JavaScript untuk menunggu di baris ini sampai proses HTTP request selesai dan datanya benar-benar sudah ada, baru lanjut ke baris berikutnya. Jika kita tidak menggunakan `await`, maka JavaScript tidak akan benar-benar menunggu proses `fetch()` selesai. Setelah fungsi `fetch()` dieksekusi, baris kode dibawahnya akan langsung dieksekusi sehingga variabel yang menyimpa data `fetch()` sebenarnya masih kosong.
+
+#### 3. Jelaskan apa itu serangan XSS (Cross-Site Scripting) dan mengapa data yang ditampilkan melalui AJAX/JavaScript lebih rentan terhadap serangan ini daripada data yang ditampilkan langsung melalui template Django!
+Seperti yag dijelaskan melalui tutorial 5 template Django melakukan auto-escaping pada setiap `{ variabel }`. Karakter seperti `<` dan `>` diubah menjadi `&lt;` dan `&gt;` sehingga browser menampilkannya sebagai teks biasa, bukan sebagai tag HTML. Sedangkan ketika kita menggunakan AJAX,  data dari JSON disisipkan ke dalam template literal lalu dipasang lewat `innerHTML`. Tidak ada lagi Django yang melakukan escaping sehingga browser akan memperlakukan setiap tag HTML di dalam data sebagai kode sungguhan.
+
