@@ -1,7 +1,8 @@
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, Permission, User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
+
 
 from main.models import Experience
 
@@ -119,8 +120,10 @@ class ExperienceAPITest(APITestCase):
         response = self.client.put(self.detail_url, self.payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+        count_before = Experience.objects.count()  
         response = self.client.post(self.list_url, self.payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Experience.objects.count(), count_before)  
 
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -148,3 +151,83 @@ class ExperienceAPITest(APITestCase):
             self.list_url, self.payload, format="json", HTTP_X_CSRFTOKEN=token,
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    
+    def test_old_edit_page_access(self):
+        url = reverse("main:edit_experience", args=[self.experience.id])
+
+        response = self.client.get(url)
+        self.assertRedirects(response, f"/login/?next={url}")
+
+        self.client.force_login(self.visitor)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.visitor.groups.add(Group.objects.create(name="Editor"))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTemplateUsed(response, "edit_experience.html")
+
+        self.client.force_login(self.owner)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_old_edit_page_cannot_save_with_post(self):
+        self.visitor.groups.add(Group.objects.create(name="Editor"))
+        url = reverse("main:edit_experience", args=[self.experience.id])
+        original_data = Experience.objects.values().get(pk=self.experience.id)
+
+        for user in (self.visitor, self.owner):
+            self.client.force_login(user)
+            response = self.client.post(url, self.payload)
+            self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+            self.assertEqual(
+                Experience.objects.values().get(pk=self.experience.id),
+                original_data,
+            )
+
+    def test_old_create_and_delete_views_require_superuser(self):
+        self.visitor.user_permissions.add(
+            *Permission.objects.filter(
+                content_type__app_label="main",
+                codename__in=["add_experience", "delete_experience"],
+            )
+        )
+        create_url = reverse("main:create_experience")
+        ajax_url = reverse("main:create_experience_ajax")
+        delete_url = reverse("main:delete_experience", args=[self.experience.id])
+        count_before = Experience.objects.count()
+        original_data = Experience.objects.values().get(pk=self.experience.id)
+        editor_group = Group.objects.create(name="Editor")
+
+        for is_editor in (False, True):
+            if is_editor:
+                self.visitor.groups.add(editor_group)
+            self.client.force_login(self.visitor)
+
+            for url in (create_url, ajax_url, delete_url):
+                with self.subTest(is_editor=is_editor, url=url):
+                    response = self.client.post(url, self.payload)
+                    self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+                    self.assertEqual(Experience.objects.count(), count_before)
+                    self.assertEqual(
+                        Experience.objects.values().get(pk=self.experience.id),
+                        original_data,
+                    )
+
+    def test_experience_page_edit_permission_context(self):
+        url = reverse("main:show_experience")
+
+        response = self.client.get(url)
+        self.assertFalse(response.context["can_edit_experience"])
+
+        self.client.force_login(self.visitor)
+        response = self.client.get(url)
+        self.assertFalse(response.context["can_edit_experience"])
+
+        self.visitor.groups.add(Group.objects.create(name="Editor"))
+        response = self.client.get(url)
+        self.assertTrue(response.context["can_edit_experience"])
+
+        self.client.force_login(self.owner)
+        response = self.client.get(url)
+        self.assertTrue(response.context["can_edit_experience"])

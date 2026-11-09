@@ -680,7 +680,7 @@ html {
     height: 100%;
     border: 0;
     padding: 0;
-    background: rgba(28, 25, 23, 0.58);
+    background: rgba(2, 6, 15, 0.8);
     cursor: default;
 }
 
@@ -689,10 +689,11 @@ html {
     z-index: 1;
     width: min(100%, 480px);
     padding: 1.5rem;
-    background: var(--paper);
-    border: 1px solid var(--line);
+    background: #081320;
+    color: var(--paper);
+    border: 1px solid #00d2ff;
     border-radius: var(--radius);
-    box-shadow: 0 1rem 3rem rgba(28, 25, 23, 0.22);
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
 }
 
 .experience-delete-modal__content h2 {
@@ -722,6 +723,20 @@ html {
     justify-content: flex-end;
     gap: 0.75rem;
     margin-top: 1.5rem;
+}
+
+.experience-delete-modal__content strong {
+    color: #00d2ff;
+    overflow-wrap: anywhere;
+}
+
+.experience-delete-modal__content h2 {
+    padding-right: 2rem;
+}
+
+.experience-delete-modal__actions button:disabled {
+    cursor: wait;
+    opacity: 0.6;
 }
 
 .button-danger {
@@ -915,6 +930,7 @@ html {
     background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
     color: #ffffff;
     border: none;
+    cursor: pointer;
     padding: 10px 20px;
     border-radius: 6px;
     font-weight: 600;
@@ -925,6 +941,10 @@ html {
     box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
     transition: all 0.3s ease;
     text-decoration: none;
+}
+
+.add-btn:disabled {
+    cursor: wait;
 }
 
 .add-btn:hover {
@@ -1073,7 +1093,7 @@ html {
     height: 100%;
     border: 0;
     padding: 0;
-    background: rgba(28, 25, 23, 0.58);
+    background: rgba(2, 6, 15, 0.8);
     cursor: default;
 }
 
@@ -1084,10 +1104,12 @@ html {
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
     padding: 1.5rem;
-    background: var(--paper);
-    border: 1px solid var(--line);
+    background: #081320;
+    color: var(--paper);
+    border: 1px solid #00d2ff;
     border-radius: var(--radius);
-    box-shadow: 0 1rem 3rem rgba(28, 25, 23, 0.22);
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
+    color-scheme: dark;
 }
 
 .experience-form-modal__content h2 {
@@ -1114,6 +1136,54 @@ html {
     justify-content: flex-end;
     gap: 0.75rem;
     margin-top: 1.5rem;
+}
+
+.experience-form-modal__content h2,
+.experience-form-modal__content .form-group label {
+    color: var(--paper);
+}
+
+.experience-form-modal__content .form-group input:not([type="checkbox"]),
+.experience-form-modal__content .form-group textarea {
+    background: #02060f;
+    color: var(--paper);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+}
+
+.experience-form-modal__content .form-group input::placeholder,
+.experience-form-modal__content .form-group textarea::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+.experience-form-modal__content .form-group input:not([type="checkbox"]):focus,
+.experience-form-modal__content .form-group textarea:focus {
+    border-color: #00d2ff;
+    outline: 2px solid rgba(0, 210, 255, 0.25);
+    outline-offset: 2px;
+}
+
+.experience-form-modal__content input[type="checkbox"] {
+    accent-color: #00d2ff;
+}
+
+.experience-form-modal__actions .button-secondary {
+    background: #0f172a;
+    color: var(--paper);
+    border: 1px solid #334155;
+}
+
+.experience-form-modal__actions .button-secondary:hover {
+    border-color: #00d2ff;
+}
+
+.experience-form-modal__content .form-error {
+    color: #f87171;
+}
+
+.experience-form-modal__content {
+    scrollbar-width: thin;
+    scrollbar-color: #334155 #081320;
 }
 
 @media (max-width: 600px) {
@@ -1230,5 +1300,36 @@ html {
     .skill-form-modal__actions .button {
         width: 100%;
         text-align: center;
+    }
+}
+
+/* Animasi saat modal tambah dan hapus dibuka */
+.experience-form-modal:popover-open .experience-form-modal__content,
+.experience-delete-modal:popover-open .experience-delete-modal__content {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Latar gelap muncul secara bertahap */
+.experience-form-modal:popover-open .experience-form-modal__backdrop,
+.experience-delete-modal:popover-open .experience-delete-modal__backdrop {
+    animation: experienceBackdropIn 0.4s ease-in-out;
+}
+
+@keyframes experienceBackdropIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Ikuti preferensi pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+    .experience-form-modal:popover-open .experience-form-modal__content,
+    .experience-delete-modal:popover-open .experience-delete-modal__content,
+    .experience-form-modal:popover-open .experience-form-modal__backdrop,
+    .experience-delete-modal:popover-open .experience-delete-modal__backdrop {
+        animation: none;
     }
 }

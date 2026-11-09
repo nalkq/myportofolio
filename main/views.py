@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -61,10 +61,16 @@ def get_experience_json(request):
 
 def show_experience(request):
     title_query = request.GET.get("title", "").strip()
+    
+    can_edit_experience = request.user.is_authenticated and (
+        request.user.is_superuser
+        or request.user.groups.filter(name="Editor").exists()
+    )
 
     context = {
         "name": "Kaysan Navid Musyaffa",
         "title_query": title_query,
+        "can_edit_experience": can_edit_experience,
         "form": ExperienceForm(),
     }
     return render(request, "experience.html", context)
@@ -80,8 +86,10 @@ def show_skills(request):
     return render(request, "skills.html", context)
 
 @login_required(login_url="/login/")
-@permission_required('main.add_experience', raise_exception=True)
 def create_experience(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     form = ExperienceForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -96,8 +104,10 @@ def create_experience(request):
     return render(request, "experience_form.html", context)
 
 @login_required(login_url="/login/")
-@permission_required('main.delete_experience', raise_exception=True)
 def delete_experience(request, experience_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     experience = get_object_or_404(Experience, pk=experience_id)
 
     if request.method == "POST":
@@ -107,15 +117,14 @@ def delete_experience(request, experience_id):
     return redirect("main:show_experience")
 
 @login_required(login_url="/login/")
-@permission_required('main.change_experience', raise_exception=True)
+@require_GET
 def edit_experience(request, experience_id):
+    if not (request.user.is_superuser or request.user.groups.filter(name="Editor").exists()):
+        raise PermissionDenied
+
     experience = get_object_or_404(Experience, pk=experience_id)
 
-    form = ExperienceForm(request.POST or None, instance=experience)
-
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect("main:show_experience")  
+    form = ExperienceForm(instance=experience)
 
     context = {
         "name": "Kaysan Navid Musyaffa",
@@ -257,7 +266,7 @@ def toggle_star_skill(request, skill_id):
 
 @require_POST
 def create_experience_ajax(request):
-    if not request.user.has_perm('main.add_experience'):
+    if not request.user.is_authenticated or not request.user.is_superuser:
         return JsonResponse(
             {"message": "Anda tidak memiliki izin untuk menambahkan pengalaman."},
             status=403,
