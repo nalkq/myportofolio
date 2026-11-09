@@ -78,9 +78,15 @@ def show_experience(request):
 def show_skills(request):
     title_query = request.GET.get("title", "").strip()
 
+    can_edit_skill = request.user.is_authenticated and (
+        request.user.is_superuser
+        or request.user.groups.filter(name="Editor").exists()
+    )
+
     context = {
         "name": "Kaysan Navid Musyaffa",
         "title_query": title_query,
+        "can_edit_skill": can_edit_skill,
         "form": SkillForm(),
     }
     return render(request, "skills.html", context)
@@ -134,8 +140,10 @@ def edit_experience(request, experience_id):
     return render(request, "edit_experience.html", context)
 
 @login_required(login_url="/login/")
-@permission_required('main.add_skill', raise_exception=True)
 def create_skill(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    
     form = SkillForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -150,8 +158,10 @@ def create_skill(request):
     return render(request, "skill_form.html", context)
 
 @login_required(login_url="/login/")
-@permission_required('main.delete_skill', raise_exception=True)
 def delete_skill(request, skill_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     skill = get_object_or_404(Skill, pk=skill_id)
 
     if request.method == "POST":
@@ -187,15 +197,14 @@ def get_skill_json(request):
     return JsonResponse(data, safe=False)
 
 @login_required(login_url="/login/")
-@permission_required('main.change_skill', raise_exception=True)
+@require_GET
 def edit_skill(request, skill_id):
+    if not (request.user.is_superuser or request.user.groups.filter(name="Editor").exists()):
+        raise PermissionDenied
+
     skill = get_object_or_404(Skill, pk=skill_id)
 
-    form = SkillForm(request.POST or None, instance=skill)
-
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect("main:show_skills")
+    form = SkillForm(instance=skill)
 
     context = {
         "name": "Kaysan Navid Musyaffa",
@@ -284,7 +293,7 @@ def create_experience_ajax(request):
 
 @require_POST
 def create_skill_ajax(request):
-    if not request.user.has_perm('main.add_skill'):
+    if not request.user.is_authenticated or not request.user.is_superuser:
         return JsonResponse(
             {"message": "Anda tidak memiliki izin untuk menambahkan skill."},
             status=403,

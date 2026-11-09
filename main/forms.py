@@ -94,5 +94,5 @@ class SkillForm(ModelForm):
             raise ValidationError("Nama skill tidak boleh hanya berisi tag HTML.")
         return name
 
-    def clean_url(self):
+    def clean_image_url(self):
         return strip_tags(self.cleaned_data.get("image_url", "")).strip()
