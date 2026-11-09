@@ -69,6 +69,11 @@ Pada penggunaan AI kali ini, saya cukup kesulitan ketika mengerjakan tutorial 5 
 
 https://share.gemini.google/zJwGWGxNdnVI
 
+### Tugas 6
+Pada penggunaan AI kali ini, saya tidak merasakan kesulitan yang signifikan. Karena untuk check list tugas kali ini kurang lebih saya sudah familiar saat mengerjakan Projek Tengah Semester. Saya menggunakan AI sebagai panduan saya dalam meingintegrasikan panduan yang terdapat di tutorial ke model yang saya punya. Selain itu saya juga menggunakan AI untuk membantu debugging dan mmengarahkan bagian kode lama saya yang masih belum up to date.
+
+https://chatgpt.com/s/cx_6af19aa9085081918abe133185dd1e3f
+
 ## Pertanyaan Reflektif
 ### Tugas 1
 
@@ -131,3 +136,33 @@ Debouncing adalah teknik untuk menunda eksekusi sebuah fungsi dengan jeda waktu 
 #### 3. Jelaskan apa itu serangan XSS (Cross-Site Scripting) dan mengapa data yang ditampilkan melalui AJAX/JavaScript lebih rentan terhadap serangan ini daripada data yang ditampilkan langsung melalui template Django!
 Seperti yag dijelaskan melalui tutorial 5 template Django melakukan auto-escaping pada setiap `{ variabel }`. Karakter seperti `<` dan `>` diubah menjadi `&lt;` dan `&gt;` sehingga browser menampilkannya sebagai teks biasa, bukan sebagai tag HTML. Sedangkan ketika kita menggunakan AJAX,  data dari JSON disisipkan ke dalam template literal lalu dipasang lewat `innerHTML`. Tidak ada lagi Django yang melakukan escaping sehingga browser akan memperlakukan setiap tag HTML di dalam data sebagai kode sungguhan.
 
+### Tugas 6
+
+#### 1. Jelaskan apa yang dimaksud dengan REST dan mengapa mengembalikan JSON saja belum cukup untuk menyebut sebuah API sebagai RESTful! Jelaskan pula perbedaan PUT dan PATCH beserta contoh kapan masing-masing sebaiknya digunakan!  
+REST adalah metode untuk mengatur cara aplikasi berkomunikasi dengan server agar prosesnya tetap stabil dan konsisten. Misalnya, URL menunjukkan jenis data yang diambil, seperti Skill, sedangkan metode HTTP menjelaskan tindakan yang dilakukan: GET digunakan untuk membaca data, POST digunakan untuk menambahkan data, dan DELETE digunakan untuk menghapus data.
+
+JSON hanyalah bentuk format data, jadi hanya mengirimkan JSON saja masih belum cukup. Cara mengatur URL dan memilih metode HTTP juga harus benar.
+
+PUT: Mengirimkan data yang lengkap agar data lama bisa diganti. Contohnya, mengirim nama Skill dan URL gambarnya.
+PATCH: mengirim bagian yang ingin diubah saja. Contohnya, mengganti nama keterampilan tanpa perlu mengirim ulang URL gambar.
+
+#### 2. Jelaskan peran serializer pada Django REST Framework! Apa keuntungannya dibandingkan merakit dictionary secara manual dengan JsonResponse seperti pada Tutorial 05?
+Serializer membantu menyusun data agar bisa dikirim dan juga memeriksa data yang masuk.
+
+Misalnya, serializer mengambil objek Skill dari database, lalu mengatur nama dan url gambar agar bisa dikirim dalam format JSON. Saat pengguna menambahkan Skill, serializer juga memeriksa apakah nama dan URL-nya sudah benar.
+
+Membuat dictionary manual dengan JsonResponse membutuhkan banyak kode yang sama, tetapi dengan menggunakan serializer, kamu bisa mengurangi kode berulang karena semua field, validasi, dan proses penyimpanan bisa diatur dalam satu kelas saja.
+
+#### 3. Jelaskan perbedaan autentikasi dan otorisasi pada Django REST Framework! Mengapa hak akses harus diperiksa dengan permission class di server, bukan hanya dengan menyembunyikan tombol di template?
+Autentikasi: memeriksa siapa pengguna yang mengirim request. Misalnya, mengenali akun dari session login.
+Otorisasi: memeriksa apa yang bisa dilakukan oleh akun tersebut. Misalnya, editor bisa mengedit, tapi tidak boleh menghapus.
+
+Menyembunyikan tombol Hapus saja tidak cukup, karena pengguna masih bisa mengirim permintaan DELETE secara langsung tanpa menekan tombol tersebut. Oleh karena itu, kelas permission di server harus terus memeriksa izinnya.
+
+
+#### 4. Jelaskan mengapa permintaan yang mengubah data tetap memerlukan token CSRF ketika API memakai SessionAuthentication! Mengapa test yang memakai force_authenticate tidak cukup untuk membuktikan bahwa perlindungan CSRF berjalan?
+Setelah pengguna berhasil masuk, browser akan mengirimkan cookie sesi secara otomatis. Situs yang berbahaya mungkin memanfaatkan situasi tersebut untuk mengirim permintaan atas nama pengguna.
+
+Token CSRF berfungsi sebagai pemeriksaan tambahan sehingga server dapat menolak permintaan perubahan data yang tidak dilengkapi dengan token yang sah. Itulah sebabnya, permintaan tambah, edit, atau hapus menggunakan header X-CSRFToken.
+
+Force authenticate adalah cara cepat untuk tes: pengguna dianggap sudah login langsung. Jadi, tes tersebut tidak menguji jalur session dan CSRF yang benar-benar digunakan.
