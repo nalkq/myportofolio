@@ -39,19 +39,26 @@ class MainTest(TestCase):
 
     def test_experience_page(self):
         response = self.client.get(reverse("main:show_experience"))
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "experience.html")
-  
-        self.assertContains(response, self.experience.title)
-        self.assertContains(response, self.experience.company)
-        self.assertContains(response, self.experience.description)
+        self.assertContains(response, reverse("api:experience-list"))
+
+        response = self.client.get(reverse("api:experience-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["title"], self.experience.title)
+        self.assertEqual(response.json()[0]["company"], self.experience.company)
+        self.assertEqual(response.json()[0]["description"], self.experience.description)
 
     def test_empty_experience_page(self):
         Experience.objects.all().delete()
         response = self.client.get(reverse("main:show_experience"))
 
-        self.assertContains(response, "Belum ada data experience yang ditambahkan pada halaman ini.")
+        self.assertContains(response, "Belum ada data experience yang ditambahkan atau ditemukan.")
+
+        response = self.client.get(reverse("api:experience-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), [])
     
     def test_inactive_experience(self):
         self.experience.is_active = False
