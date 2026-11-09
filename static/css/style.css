@@ -1237,21 +1237,18 @@ html {
     height: 100%;
     border: 0;
     padding: 0;
-    background: rgba(28, 25, 23, 0.58);
+    background: rgba(2, 6, 15, 0.8);
     cursor: default;
 }
 
 .skill-form-modal__content {
-    position: relative;
-    z-index: 1;
-    width: min(100%, 640px);
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-    padding: 1.5rem;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: 0 1rem 3rem rgba(28, 25, 23, 0.22);
+    background: #081320;
+    color: var(--paper);
+    border: 1px solid #00d2ff;
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
+    color-scheme: dark;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 #081320;
 }
 
 .skill-form-modal__content h2 {
@@ -1330,6 +1327,61 @@ html {
     .experience-delete-modal:popover-open .experience-delete-modal__content,
     .experience-form-modal:popover-open .experience-form-modal__backdrop,
     .experience-delete-modal:popover-open .experience-delete-modal__backdrop {
+        animation: none;
+    }
+}
+
+.skill-form-modal__content h2,
+.skill-form-modal__content .form-group label {
+    color: var(--paper);
+}
+
+.skill-form-modal__content .form-group input:not([type="checkbox"]),
+.skill-form-modal__content .form-group textarea {
+    background: #02060f;
+    color: var(--paper);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+}
+
+.skill-form-modal__content .form-group input::placeholder,
+.skill-form-modal__content .form-group textarea::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+.skill-form-modal__content .form-group input:not([type="checkbox"]):focus,
+.skill-form-modal__content .form-group textarea:focus {
+    border-color: #00d2ff;
+    outline: 2px solid rgba(0, 210, 255, 0.25);
+    outline-offset: 2px;
+}
+
+.skill-form-modal__actions .button-secondary {
+    background: #0f172a;
+    color: var(--paper);
+    border: 1px solid #334155;
+}
+
+.skill-form-modal__actions .button-secondary:hover {
+    border-color: #00d2ff;
+}
+
+.skill-form-modal__content .form-error {
+    color: #f87171;
+}
+
+/* Animasi pembukaan modal */
+.skill-form-modal:popover-open .skill-form-modal__content {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.skill-form-modal:popover-open .skill-form-modal__backdrop {
+    animation: experienceBackdropIn 0.4s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skill-form-modal:popover-open .skill-form-modal__content,
+    .skill-form-modal:popover-open .skill-form-modal__backdrop {
         animation: none;
     }
 }

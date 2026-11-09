@@ -74,15 +74,21 @@ class MainTest(TestCase):
         
     def test_skill_page(self):
         response = self.client.get(reverse("main:show_skills"))
-        
+
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "skills.html") 
-        
-        self.assertContains(response, self.skill.name)
-        
+        self.assertTemplateUsed(response, "skills.html")
+        self.assertContains(response, reverse("api:skill-list"))
+
+        response = self.client.get(reverse("api:skill-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["name"], self.skill.name)
+
     def test_empty_skill_page(self):
         Skill.objects.all().delete()
-        
         response = self.client.get(reverse("main:show_skills"))
-        
-        self.assertContains(response, "Belum ada skill yang ditambahkan pada halaman ini.")
+
+        self.assertContains(response, "Belum ada data skill yang ditambahkan atau ditemukan.")
+
+        response = self.client.get(reverse("api:skill-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), [])

@@ -6,42 +6,40 @@
     Hapus
 </button>
 
-<div id="delete-skill-{{ skill.id }}"
+<div id="delete-skill-modal"
      class="experience-delete-modal"
      popover="auto"
      role="dialog"
-     aria-modal="true"
-     aria-labelledby="delete-skill-title-{{ skill.id }}">
-     
+     aria-labelledby="delete-skill-title">
+
     <button type="button"
             class="experience-delete-modal__backdrop"
-            popovertarget="delete-skill-{{ skill.id }}"
+            popovertarget="delete-skill-modal"
             popovertargetaction="hide"
             aria-label="Tutup konfirmasi hapus"></button>
-            
+
     <div class="experience-delete-modal__content">
         <button type="button"
                 class="experience-delete-modal__close"
-                popovertarget="delete-skill-{{ skill.id }}"
+                popovertarget="delete-skill-modal"
                 popovertargetaction="hide"
                 aria-label="Tutup konfirmasi hapus">×</button>
-                
-        <h2 id="delete-skill-title-{{ skill.id }}">Hapus Skill?</h2>
+
+        <h2 id="delete-skill-title">Hapus Skill?</h2>
         <p>
             Apakah Anda yakin ingin menghapus
-            <strong>{{ skill.name }}</strong>?
+            <strong id="delete-skill-name"></strong>?
         </p>
-        
+
         <div class="experience-delete-modal__actions">
             <button type="button"
                     class="button button-secondary"
-                    popovertarget="delete-skill-{{ skill.id }}"
+                    popovertarget="delete-skill-modal"
                     popovertargetaction="hide">Batal</button>
-                    
-            <form method="post" action="{% url 'main:delete_skill' skill.id %}">
-                {% csrf_token %}
-                <button type="submit" class="button button-danger">Ya, Hapus</button>
-            </form>
+
+            <button type="button"
+                    id="confirm-delete-skill"
+                    class="button button-danger">Ya, Hapus</button>
         </div>
     </div>
 </div>

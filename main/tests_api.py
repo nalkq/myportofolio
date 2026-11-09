@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 
-from main.models import Experience
+from main.models import Experience, Skill
 
 
 class ExperienceAPITest(APITestCase):
@@ -231,3 +231,164 @@ class ExperienceAPITest(APITestCase):
         self.client.force_login(self.owner)
         response = self.client.get(url)
         self.assertTrue(response.context["can_edit_experience"])
+        
+class SkillAPITest(APITestCase):
+    def setUp(self):
+        self.owner = User.objects.create_superuser(
+            username="owner", password="test-password", email="owner@example.com",
+        )
+        self.visitor = User.objects.create_user(username="visitor", password="test-password")
+        self.editor = User.objects.create_user(username="editor", password="test-password")
+        self.editor.groups.add(Group.objects.create(name="Editor"))
+        self.skill = Skill.objects.create(name="Python", image_url="https://example.com/python.png")
+        self.list_url = reverse("api:skill-list")
+        self.detail_url = reverse("api:skill-detail", args=[self.skill.id])
+        self.star_url = reverse("api:skill-star", args=[self.skill.id])
+        self.payload = {
+            "name": "Django", "image_url": "https://example.com/django.png",
+        }
+
+    def test_public_read_search_and_missing_skill(self):
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["id"], self.skill.id)
+        self.assertEqual(response.data[0]["name"], "Python")
+        self.assertNotIn("fields", response.data[0])
+        self.assertNotIn("starred_by", response.data[0])
+        self.assertEqual(self.client.get(self.detail_url).status_code, 200)
+        self.assertEqual(len(self.client.get(self.list_url, {"title": "PYTH"}).data), 1)
+        self.assertEqual(self.client.get(self.list_url, {"title": "missing"}).data, [])
+        url = reverse("api:skill-detail", args=[self.skill.id + 1])
+        self.assertEqual(self.client.get(url).status_code, 404)
+
+    def test_guest_and_visitor_cannot_write(self):
+        original_data = Skill.objects.values().get(pk=self.skill.id)
+        count_before = Skill.objects.count()
+        for user in (None, self.visitor):
+            self.client.force_authenticate(user=user)
+            self.assertEqual(self.client.post(self.list_url, self.payload, format="json").status_code, 403)
+            self.assertEqual(self.client.patch(self.detail_url, {"name": "Changed"}, format="json").status_code, 403)
+            self.assertEqual(self.client.put(self.detail_url, self.payload, format="json").status_code, 403)
+            self.assertEqual(self.client.delete(self.detail_url).status_code, 403)
+            self.assertEqual(Skill.objects.count(), count_before)
+            self.assertEqual(Skill.objects.values().get(pk=self.skill.id), original_data)
+
+    def test_editor_can_update_but_cannot_create_or_delete(self):
+        self.client.force_authenticate(user=self.editor)
+        response = self.client.patch(self.detail_url, {"name": "Changed"}, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.skill.refresh_from_db()
+        self.assertEqual(self.skill.name, "Changed")
+        self.assertEqual(self.skill.image_url, "https://example.com/python.png")
+        self.assertEqual(self.client.put(self.detail_url, self.payload, format="json").status_code, 200)
+
+        count_before = Skill.objects.count()
+        original_data = Skill.objects.values().get(pk=self.skill.id)
+        self.assertEqual(self.client.post(self.list_url, self.payload, format="json").status_code, 403)
+        self.assertEqual(self.client.delete(self.detail_url).status_code, 403)
+        self.assertEqual(Skill.objects.count(), count_before)
+        self.assertEqual(Skill.objects.values().get(pk=self.skill.id), original_data)
+
+    def test_owner_can_create_update_and_delete(self):
+        self.client.force_authenticate(user=self.owner)
+        response = self.client.post(self.list_url, self.payload, format="json")
+        self.assertEqual(response.status_code, 201)
+        created = Skill.objects.get(pk=response.data["id"])
+        self.assertEqual(created.name, "Django")
+        self.assertEqual(self.client.patch(self.detail_url, {"name": "Updated"}, format="json").status_code, 200)
+        self.skill.refresh_from_db()
+        self.assertEqual(self.skill.name, "Updated")
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.content, b"")
+        self.assertFalse(Skill.objects.filter(pk=self.skill.id).exists())
+
+    def test_validation_and_cleaning(self):
+        self.client.force_authenticate(user=self.owner)
+        count_before = Skill.objects.count()
+        for changes, field in [
+            ({"name": "   "}, "name"),
+            ({"name": "<b></b>"}, "name"),
+            ({"name": "A" * 101}, "name"),
+            ({"image_url": "javascript:alert(1)"}, "image_url"),
+        ]:
+            response = self.client.post(self.list_url, {**self.payload, **changes}, format="json")
+            self.assertEqual(response.status_code, 400)
+            self.assertIn(field, response.data)
+            self.assertEqual(Skill.objects.count(), count_before)
+        response = self.client.post(self.list_url, {"name": " <b>Django</b> ", "image_url": ""}, format="json")
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Skill.objects.get(pk=response.data["id"]).name, "Django")
+
+    def test_star_requires_login_and_uses_current_account(self):
+        self.assertEqual(self.client.post(self.star_url).status_code, 403)
+        self.assertEqual(self.skill.starred_by.count(), 0)
+        self.client.force_authenticate(user=self.visitor)
+        response = self.client.post(self.star_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data["is_starred"])
+        self.assertEqual(response.data["star_count"], 1)
+        self.assertTrue(self.skill.starred_by.filter(pk=self.visitor.id).exists())
+        self.client.force_authenticate(user=self.editor)
+        self.assertFalse(self.client.get(self.detail_url).data["is_starred"])
+        self.client.force_authenticate(user=self.visitor)
+        response = self.client.post(self.star_url)
+        self.assertFalse(response.data["is_starred"])
+        self.assertEqual(self.skill.starred_by.count(), 0)
+
+    def test_computed_fields_are_read_only(self):
+        self.client.force_authenticate(user=self.owner)
+        response = self.client.post(self.list_url, {
+            **self.payload, "star_count": 99, "is_starred": True,
+            "starred_by_names": "forged", "starred_by": [self.visitor.id],
+        }, format="json")
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data["star_count"], 0)
+        self.assertFalse(response.data["is_starred"])
+        self.assertEqual(response.data["starred_by_names"], "")
+        self.assertEqual(Skill.objects.get(pk=response.data["id"]).starred_by.count(), 0)
+
+    def test_session_write_requires_csrf(self):
+        client = APIClient(enforce_csrf_checks=True)
+        self.assertTrue(client.login(username="owner", password="test-password"))
+        count_before = Skill.objects.count()
+        self.assertEqual(client.post(self.list_url, self.payload, format="json").status_code, 403)
+        self.assertEqual(Skill.objects.count(), count_before)
+        client.get(self.list_url, HTTP_ACCEPT="text/html")
+        token = client.cookies["csrftoken"].value
+        response = client.post(
+            self.list_url, self.payload, format="json", HTTP_X_CSRFTOKEN=token,
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(Skill.objects.filter(pk=response.data["id"]).exists())
+
+    def test_old_skill_json_endpoint(self):
+        url = reverse("main:get_skill_json")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["fields"]["name"], "Python")
+        self.assertEqual(len(self.client.get(url, {"title": "PYTH"}).json()), 1)
+        self.assertEqual(self.client.get(url, {"title": "missing"}).json(), [])
+
+    def test_old_ajax_create_success_and_invalid_input(self):
+        self.client.force_login(self.owner)
+        url = reverse("main:create_skill_ajax")
+        response = self.client.post(url, self.payload)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Skill.objects.get(pk=response.json()["pk"]).name, "Django")
+        count_before = Skill.objects.count()
+        response = self.client.post(url, {"name": "", "image_url": ""})
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("name", response.json()["errors"])
+        self.assertEqual(Skill.objects.count(), count_before)
+
+    def test_old_ajax_create_rejects_guest_visitor_and_editor(self):
+        url = reverse("main:create_skill_ajax")
+        count_before = Skill.objects.count()
+        for user in (None, self.visitor, self.editor):
+            self.client.logout()
+            if user is not None:
+                self.client.force_login(user)
+            response = self.client.post(url, self.payload)
+            self.assertEqual(response.status_code, 403)
+            self.assertEqual(Skill.objects.count(), count_before)

@@ -8,7 +8,7 @@
             <div class="container">
                 <h1>Edit Skill</h1>
                 
-                <form method="post" class="skill-form">
+                <form id="edit-skill-form" class="skill-form">
                     {% csrf_token %}
                     
                     {% for field in form %}
@@ -30,4 +30,53 @@
             </div>
         </section>
     </main>
+
+        <script>
+    const UPDATE_SKILL_ENDPOINT = "{% url 'api:skill-detail' skill.id %}";
+    const editSkillForm = document.getElementById('edit-skill-form');
+
+    function getCookie(name) {
+        const prefix = `${name}=`;
+        const cookie = document.cookie.split(';').map(value => value.trim())
+            .find(value => value.startsWith(prefix));
+        return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : null;
+    }
+
+    function apiErrorMessage(data, status) {
+        const messages = Object.values(data).flat().filter(value => typeof value === 'string');
+        return messages.join(' ') || `Permintaan gagal (HTTP ${status}).`;
+    }
+
+    async function updateSkill(event) {
+        event.preventDefault();
+        const button = editSkillForm.querySelector('button[type="submit"]');
+        button.disabled = true;
+        try {
+            const fields = new FormData(editSkillForm);
+            const payload = {
+                name: fields.get('name'),
+                image_url: fields.get('image_url'),
+            };
+            const response = await fetch(UPDATE_SKILL_ENDPOINT, {
+                method: 'PATCH',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify(payload),
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(apiErrorMessage(data, response.status));
+            sessionStorage.setItem('skillUpdated', 'true');
+            window.location.assign("{% url 'main:show_skills' %}");
+        } catch (error) {
+            showToast('Gagal memperbarui skill', error.message, 'error');
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    editSkillForm.addEventListener('submit', updateSkill);
+    </script>
 {% endblock content %}
