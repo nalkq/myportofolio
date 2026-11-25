@@ -24,3 +24,11 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Project(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    tech_stack = models.TextField()
+    project_url = models.URLField()
+    project_image_url = models.URLField(blank=True, default="")
