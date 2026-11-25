@@ -121,3 +121,11 @@ def skill_star(request, skill_id):
         skill.starred_by.add(request.user)
     serializer = SkillSerializer(skill, context={"request": request})
     return Response(serializer.data)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def api_logout(request):
+    if request.auth is not None:
+        request.auth.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
