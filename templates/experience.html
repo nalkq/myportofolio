@@ -188,15 +188,22 @@
         const button = experienceForm.querySelector('button[type="submit"]');
         button.disabled = true;
         try {
-            const fields = new FormData(experienceForm);
-            const payload = {
-                title: fields.get('title'),
-                company: fields.get('company'),
-                date_range: fields.get('date_range'),
-                description: fields.get('description'),
-                is_active: fields.has('is_active'),
-            };
-            await writeExperience(BASE_EXPERIENCES_ENDPOINT, 'POST', payload);
+            const response = await fetch("{% url 'main:create_experience_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: new FormData(experienceForm),
+            });
+
+            if (!response.ok) {
+                const data = await response.json().catch(() => ({}));
+                const messages = Object.values(data.errors ?? {})
+                    .flat()
+                    .map(error => error.message);
+                throw new Error(messages.join(' ') || apiErrorMessage(data, response.status));
+            }
             experienceForm.reset();
             document.getElementById('add-experience-modal').hidePopover();
             showToast('Berhasil', 'Pengalaman berhasil ditambahkan.', 'success');
