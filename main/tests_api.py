@@ -2,6 +2,7 @@ from django.contrib.auth.models import Group, Permission, User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
+from rest_framework.authtoken.models import Token
 
 
 from main.models import Experience, Skill
@@ -47,7 +48,9 @@ class ExperienceAPITest(APITestCase):
     def test_guest_and_visitor_cannot_write(self):
         for user in (None, self.visitor):
             self.client.force_authenticate(user=user)
-            self.assertEqual(self.client.post(self.list_url, self.payload, format="json").status_code, 403)
+            expected = status.HTTP_401_UNAUTHORIZED if user is None else status.HTTP_403_FORBIDDEN
+            response = self.client.post(self.list_url, self.payload, format="json")
+            self.assertEqual(response.status_code, expected)
             self.assertEqual(self.client.patch(self.detail_url, {"title": "Changed"}, format="json").status_code, 403)
             self.assertEqual(self.client.delete(self.detail_url).status_code, 403)
         self.assertEqual(Experience.objects.count(), 1)
@@ -55,7 +58,8 @@ class ExperienceAPITest(APITestCase):
         self.assertEqual(self.experience.title, "Asisten Dosen")
 
     def test_owner_can_create(self):
-        self.client.force_authenticate(user=self.owner)
+        token, _ = Token.objects.get_or_create(user=self.owner)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
         response = self.client.post(self.list_url, self.payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Experience.objects.filter(pk=response.data["id"]).exists())
@@ -137,20 +141,30 @@ class ExperienceAPITest(APITestCase):
         client = APIClient(enforce_csrf_checks=True)
         self.assertTrue(client.login(username="owner", password="test-password"))
         response = client.post(self.list_url, self.payload, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(Experience.objects.count(), 1)
 
-    def test_session_write_with_csrf_succeeds(self):
+    def test_web_create_uses_session_and_csrf(self):
         client = APIClient(enforce_csrf_checks=True)
-        client.login(username="owner", password="test-password")
-        # The Browsable API form renders a real CSRF token into the response.
-        page = client.get(self.list_url, HTTP_ACCEPT="text/html")
+        self.assertTrue(client.login(username="owner", password="test-password"))
+        page = client.get(reverse("main:show_experience"))
         self.assertEqual(page.status_code, status.HTTP_200_OK)
-        token = client.cookies["csrftoken"].value
-        response = client.post(
-            self.list_url, self.payload, format="json", HTTP_X_CSRFTOKEN=token,
+        csrf_token = client.cookies["csrftoken"].value
+
+        api_response = client.post(
+            self.list_url, self.payload, format="json", HTTP_X_CSRFTOKEN=csrf_token,
         )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(api_response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        web_url = reverse("main:create_experience_ajax")
+        self.assertEqual(
+            client.post(web_url, self.payload).status_code,
+            status.HTTP_403_FORBIDDEN,
+        )
+        web_response = client.post(
+            web_url, self.payload, HTTP_X_CSRFTOKEN=csrf_token,
+        )
+        self.assertEqual(web_response.status_code, status.HTTP_201_CREATED)
     
     def test_old_edit_page_access(self):
         url = reverse("main:edit_experience", args=[self.experience.id])
